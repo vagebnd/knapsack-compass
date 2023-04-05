@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Exceptions;
+namespace Knapsack\Compass\Exceptions;
 
 use Exception;
 use Psr\Container\NotFoundExceptionInterface;

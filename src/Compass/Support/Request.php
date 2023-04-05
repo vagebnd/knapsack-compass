@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\ForwardsCalls;

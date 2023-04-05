@@ -1,14 +1,14 @@
 <?php
 
-namespace Compass\Core\Boostrap;
+namespace Knapsack\Compass\Core\Boostrap;
 
-use Compass\App;
-use Compass\Contracts\Bootstrapable;
-use Compass\Contracts\Debug\ExceptionHandler;
-use Compass\Contracts\ViewContract;
-use Compass\Exceptions\Handler;
-use Compass\Routing\Router;
-use Compass\Support\View;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Bootstrapable;
+use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
+use Knapsack\Compass\Contracts\ViewContract;
+use Knapsack\Compass\Exceptions\Handler;
+use Knapsack\Compass\Routing\Router;
+use Knapsack\Compass\Support\View;
 
 class RegisterBindings implements Bootstrapable
 {

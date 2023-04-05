@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Contracts;
+namespace Knapsack\Compass\Contracts;
 
-use Compass\App;
+use Knapsack\Compass\App;
 
 interface Bootstrapable
 {

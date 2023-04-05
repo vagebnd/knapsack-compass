@@ -1,14 +1,14 @@
 <?php
 
-namespace Compass\Core\Http;
+namespace Knapsack\Compass\Core\Http;
 
-use Compass\App;
-use Compass\Contracts\KernelContract;
-use Compass\Core\Boostrap\HandleExceptions;
-use Compass\Core\Boostrap\LoadConfiguration;
-use Compass\Core\Boostrap\LoadRoutes;
-use Compass\Core\Boostrap\RegisterBindings;
-use Compass\Core\Boostrap\RegisterFacades;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\KernelContract;
+use Knapsack\Compass\Core\Boostrap\HandleExceptions;
+use Knapsack\Compass\Core\Boostrap\LoadConfiguration;
+use Knapsack\Compass\Core\Boostrap\LoadRoutes;
+use Knapsack\Compass\Core\Boostrap\RegisterBindings;
+use Knapsack\Compass\Core\Boostrap\RegisterFacades;
 
 class Kernel implements KernelContract
 {

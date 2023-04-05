@@ -1,12 +1,12 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Compass\Contracts\MetaboxContract;
-use Compass\Models\Post;
-use Compass\Support\Facades\Request;
+use Knapsack\Compass\Contracts\MetaboxContract;
+use Knapsack\Compass\Models\Post;
+use Knapsack\Compass\Support\Facades\Request;
 
 abstract class Metabox extends DependencyResolver implements MetaboxContract
 {

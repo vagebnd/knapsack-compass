@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Routing;
+namespace Knapsack\Compass\Routing;
 
-use Compass\Exceptions\RouteException;
+use Knapsack\Compass\Exceptions\RouteException;
 
 class RouteCollection
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Compass;
+namespace Knapsack\Compass;
 
-use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use Compass\Support\Facades\Config;
+use Illuminate\Container\Container;
+use Knapsack\Compass\Support\Facades\Config;
 
 class App extends Container
 {

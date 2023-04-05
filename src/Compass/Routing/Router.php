@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Routing;
+namespace Knapsack\Compass\Routing;
 
-use Compass\App;
+use Knapsack\Compass\App;
 
 class Router
 {

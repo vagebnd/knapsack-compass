@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Routing;
+namespace Knapsack\Compass\Routing;
 
-use Compass\Support\DependencyResolver;
+use Knapsack\Compass\Support\DependencyResolver;
 
 abstract class Controller extends DependencyResolver
 {

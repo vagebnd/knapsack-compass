@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Contracts;
+namespace Knapsack\Compass\Contracts;
 
 interface Serializable
 {

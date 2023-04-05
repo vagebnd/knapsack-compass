@@ -1,10 +1,10 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
 use BadMethodCallException;
-use Compass\App;
-use Compass\Routing\Traits\DependencyResolverTrait;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Routing\Traits\DependencyResolverTrait;
 
 abstract class DependencyResolver
 {

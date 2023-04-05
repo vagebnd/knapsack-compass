@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Contracts\Config;
+namespace Knapsack\Compass\Contracts\Config;
 
 interface Repository
 {

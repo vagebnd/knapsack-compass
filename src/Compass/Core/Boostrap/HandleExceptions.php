@@ -1,12 +1,12 @@
 <?php
 
-namespace Compass\Core\Boostrap;
+namespace Knapsack\Compass\Core\Boostrap;
 
 use ErrorException;
 use Exception;
-use Compass\App;
-use Compass\Contracts\Bootstrapable;
-use Compass\Contracts\Debug\ExceptionHandler;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Bootstrapable;
+use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
 use Throwable;
 
 class HandleExceptions implements Bootstrapable

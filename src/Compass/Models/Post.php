@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Models;
+namespace Knapsack\Compass\Models;
 
 use Illuminate\Support\Collection;
 use WP_Post;

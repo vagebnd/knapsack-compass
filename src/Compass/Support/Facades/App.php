@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Support\Facades;
+namespace Knapsack\Compass\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Compass\App as CompassApp;
+use Knapsack\Compass\App as CompassApp;
 
 /**
  * @method static string getName()

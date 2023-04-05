@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
 use Jenssegers\Blade\Blade;
-use Compass\Contracts\ViewContract;
+use Knapsack\Compass\Contracts\ViewContract;
 
 class View implements ViewContract
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
 use Exception;
-use Compass\Exceptions\ViteException;
+use Knapsack\Compass\Exceptions\ViteException;
 
 class Vite
 {

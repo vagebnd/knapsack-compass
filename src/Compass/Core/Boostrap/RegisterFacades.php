@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Core\Boostrap;
+namespace Knapsack\Compass\Core\Boostrap;
 
 use Illuminate\Support\Facades\Facade;
-use Compass\Contracts\Bootstrapable;
+use Knapsack\Compass\Contracts\Bootstrapable;
 
 class RegisterFacades implements Bootstrapable
 {

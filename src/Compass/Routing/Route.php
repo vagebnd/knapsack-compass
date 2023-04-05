@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Routing;
+namespace Knapsack\Compass\Routing;
 
 use InvalidArgumentException;
-use Compass\Contracts\Serializable;
+use Knapsack\Compass\Contracts\Serializable;
 
 class Route implements Serializable
 {

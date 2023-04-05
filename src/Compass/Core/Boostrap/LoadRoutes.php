@@ -1,11 +1,11 @@
 <?php
 
-namespace Compass\Core\Boostrap;
+namespace Knapsack\Compass\Core\Boostrap;
 
-use Compass\App;
-use Compass\Contracts\Bootstrapable;
-use Compass\Routing\Registrar;
-use Compass\Routing\Router;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Bootstrapable;
+use Knapsack\Compass\Routing\Registrar;
+use Knapsack\Compass\Routing\Router;
 
 class LoadRoutes implements Bootstrapable
 {

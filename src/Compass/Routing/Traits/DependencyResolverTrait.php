@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Routing\Traits;
+namespace Knapsack\Compass\Routing\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Reflector;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Compass\Core\Boostrap;
+namespace Knapsack\Compass\Core\Boostrap;
 
 use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Config\Repository as RepositoryContract;
-use Compass\App;
-use Compass\Contracts\Bootstrapable;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Bootstrapable;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 

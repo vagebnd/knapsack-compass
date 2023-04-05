@@ -1,9 +1,9 @@
 <?php
 
-namespace Compass\Support\Facades;
+namespace Knapsack\Compass\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Compass\Routing\Router;
+use Knapsack\Compass\Routing\Router;
 
 /**
  * @method static \Compass\Routing\Router template(string $template, array|string|callable|null $action = null)

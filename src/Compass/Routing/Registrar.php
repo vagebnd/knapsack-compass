@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Routing;
+namespace Knapsack\Compass\Routing;
 
-use Compass\Exceptions\HttpResponseException;
+use Knapsack\Compass\Exceptions\HttpResponseException;
 
 class Registrar
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Exceptions;
+namespace Knapsack\Compass\Exceptions;
 
-use Compass\Contracts\Debug\ExceptionHandler;
+use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
 use Throwable;
 
 class Handler implements ExceptionHandler

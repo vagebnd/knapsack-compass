@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Contracts\Debug;
+namespace Knapsack\Compass\Contracts\Debug;
 
 use Throwable;
 

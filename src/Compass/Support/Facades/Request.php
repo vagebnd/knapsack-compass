@@ -1,11 +1,11 @@
 <?php
 
-namespace Compass\Support\Facades;
+namespace Knapsack\Compass\Support\Facades;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\LazyCollection;
-use Compass\Support\Request as SupportRequest;
+use Knapsack\Compass\Support\Request as SupportRequest;
 
 /**
  * @method static array all()

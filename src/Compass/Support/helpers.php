@@ -1,8 +1,8 @@
 <?php
 
-use Compass\App;
-use Compass\Contracts\Config\Repository;
-use Compass\Contracts\ViewContract;
+use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Config\Repository;
+use Knapsack\Compass\Contracts\ViewContract;
 
 if (! function_exists('vgb_path')) {
     function vgb_path($path = '')

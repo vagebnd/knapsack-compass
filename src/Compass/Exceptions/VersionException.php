@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Exceptions;
+namespace Knapsack\Compass\Exceptions;
 
 class VersionException extends \RuntimeException
 {

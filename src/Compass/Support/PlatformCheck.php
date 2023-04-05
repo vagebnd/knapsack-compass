@@ -1,8 +1,8 @@
 <?php
 
-namespace Compass\Support;
+namespace Knapsack\Compass\Support;
 
-use Compass\Exceptions\VersionException;
+use Knapsack\Compass\Exceptions\VersionException;
 
 class PlatformCheck
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Compass\Support\Facades;
+namespace Knapsack\Compass\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
