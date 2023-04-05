@@ -2,7 +2,6 @@
   "name": "knapsack-compass",
   "version": "0.0.1",
   "author": "Gianluca Riggio <luca@maximumawesome.nl>",
-
   "devDependencies": {
     "@types/node": "^18.11.18",
     "fast-glob": "^3.2.12",
@@ -13,5 +12,22 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "semi": false,
+    "arrowParens": "always",
+    "quoteProps": "consistent",
+    "overrides": [
+      {
+        "files": "resources/**/*.html",
+        "options": {
+          "tabWidth": 4
+        }
+      }
+    ]
   }
 }
