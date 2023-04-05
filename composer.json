@@ -26,7 +26,8 @@
         "symfony/var-dumper": "^5.4",
         "filp/whoops": "^2.14",
         "phpstan/phpstan": "^1.10",
-        "szepeviktor/phpstan-wordpress": "^1.1"
+        "szepeviktor/phpstan-wordpress": "^1.1",
+        "friendsofphp/php-cs-fixer": "^3.16"
     },
     "autoload": {
         "psr-4": {
