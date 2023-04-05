@@ -39,3 +39,4 @@ yarn.lock
 
 # Composer
 /vendor/
+composer.lock
