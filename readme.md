@@ -1,0 +1,1 @@
+# Compass framework for Knapsack
