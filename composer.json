@@ -1,0 +1,43 @@
+{
+    "name": "knapsack/framework",
+    "description": "The Knapsack Framework",
+    "keywords": [
+        "framework",
+        "knapsack",
+        "wordpress"
+    ],
+    "authors": [
+        {
+            "name": "Gianluca Riggio",
+            "email": "luca@maximumawesome.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "psr/container": "~1.0",
+        "jenssegers/blade": "^1.4",
+        "illuminate/config": "^8.83",
+        "illuminate/container": "^8.83",
+        "symfony/finder": "^5.4",
+        "illuminate/support": "^8.83"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.4",
+        "filp/whoops": "^2.14",
+        "phpstan/phpstan": "^1.10",
+        "szepeviktor/phpstan-wordpress": "^1.1",
+        "laravel/pint": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Compass\\": "src/Compass"
+        },
+        "files": [
+            "src/Compass/Support/helpers.php"
+        ]
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "fix": "vendor/bin/pint"
+    }
+}
