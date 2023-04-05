@@ -1,6 +1,7 @@
 {
     "name": "vagebnd/knapsack-framework",
     "description": "The Knapsack Framework",
+    "license": "MIT",
     "keywords": [
         "framework",
         "knapsack",
