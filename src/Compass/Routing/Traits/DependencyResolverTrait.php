@@ -26,7 +26,8 @@ trait DependencyResolverTrait
         }
 
         return $this->resolveMethodDependencies(
-            $parameters, new ReflectionMethod($instance, $method)
+            $parameters,
+            new ReflectionMethod($instance, $method)
         );
     }
 
@@ -64,7 +65,6 @@ trait DependencyResolverTrait
      *
      * @param  array  $parameters
      * @param  object  $skippableValue
-     * @return mixed
      */
     protected function transformDependency(ReflectionParameter $parameter, $parameters, $skippableValue)
     {
@@ -99,13 +99,15 @@ trait DependencyResolverTrait
      * Splice the given value into the parameter list.
      *
      * @param  string|int  $offset
-     * @param  mixed  $value
      * @return void
      */
     protected function spliceIntoParameters(array &$parameters, $offset, $value)
     {
         array_splice(
-            $parameters, $offset, 0, [$value]
+            $parameters,
+            $offset,
+            0,
+            [$value]
         );
     }
 }

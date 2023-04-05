@@ -2,8 +2,8 @@
 
 namespace Knapsack\Compass;
 
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Knapsack\Compass\Support\Facades\Config;
 
 class App extends Container

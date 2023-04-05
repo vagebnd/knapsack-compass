@@ -54,7 +54,6 @@ class HandleExceptions implements Bootstrapable
         try {
             $this->getExceptionHandler()->report($e);
         } catch (Exception $e) {
-            //
         }
 
         $this->getExceptionHandler()->render($e);
