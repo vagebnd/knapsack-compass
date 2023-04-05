@@ -2,8 +2,10 @@
 
 namespace Knapsack\Compass\Exceptions;
 
-use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
 use Throwable;
+use Whoops\Handler\PrettyPageHandler;
+use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
+use Knapsack\Compass\Support\Facades\Config;
 
 class Handler implements ExceptionHandler
 {
@@ -15,10 +17,13 @@ class Handler implements ExceptionHandler
     public function render(Throwable $e)
     {
         if (wp_get_environment_type() === 'local') {
+            $pageHandler = (new PrettyPageHandler)
+                ->setEditor(Config::get('app.editor', 'vscode'));
+
             $whoops = new \Whoops\Run;
             $whoops->allowQuit(false);
             $whoops->writeToOutput(false);
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->pushHandler($pageHandler);
 
             echo $whoops->handleException($e);
         } else {
