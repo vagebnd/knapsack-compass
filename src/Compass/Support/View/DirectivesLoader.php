@@ -1,7 +1,6 @@
 <?php
 namespace Knapsack\Compass\Support\View;
 
-use Exception;
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\ViewContract;
 

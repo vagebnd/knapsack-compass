@@ -4,6 +4,7 @@ namespace Knapsack\Compass\Core\Http;
 
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\KernelContract;
+use Knapsack\Compass\Core\Boostrap\ConfigureViews;
 use Knapsack\Compass\Core\Boostrap\HandleExceptions;
 use Knapsack\Compass\Core\Boostrap\LoadConfiguration;
 use Knapsack\Compass\Core\Boostrap\LoadRoutes;
@@ -18,6 +19,7 @@ class Kernel implements KernelContract
         HandleExceptions::class,
         RegisterBindings::class,
         LoadConfiguration::class,
+        ConfigureViews::class,
         RegisterFacades::class,
         LoadRoutes::class,
     ];
