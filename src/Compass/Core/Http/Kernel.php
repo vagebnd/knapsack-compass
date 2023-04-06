@@ -4,6 +4,7 @@ namespace Knapsack\Compass\Core\Http;
 
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\KernelContract;
+use Knapsack\Compass\Core\Boostrap\ConfigureFilesystem;
 use Knapsack\Compass\Core\Boostrap\ConfigureViews;
 use Knapsack\Compass\Core\Boostrap\HandleExceptions;
 use Knapsack\Compass\Core\Boostrap\LoadConfiguration;
@@ -16,11 +17,12 @@ class Kernel implements KernelContract
     protected App $app;
 
     protected $bootstrappers = [
+        ConfigureFilesystem::class,
         HandleExceptions::class,
         RegisterBindings::class,
+        RegisterFacades::class,
         LoadConfiguration::class,
         ConfigureViews::class,
-        RegisterFacades::class,
         LoadRoutes::class,
     ];
 
