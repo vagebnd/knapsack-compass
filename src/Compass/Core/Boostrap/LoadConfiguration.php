@@ -3,12 +3,13 @@
 namespace Knapsack\Compass\Core\Boostrap;
 
 use Exception;
-use Illuminate\Config\Repository;
-use Illuminate\Contracts\Config\Repository as RepositoryContract;
+use SplFileInfo;
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\Bootstrapable;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Knapsack\Compass\Support\Collections\Arr;
+use Knapsack\Compass\Contracts\FilesystemContract;
+use Knapsack\Compass\Contracts\Config\Repository as RepositoryContract;
+use Knapsack\Compass\Support\Repository;
 
 class LoadConfiguration implements Bootstrapable
 {
@@ -39,7 +40,11 @@ class LoadConfiguration implements Bootstrapable
 
         $configPath = realpath(vgb_config_path());
 
-        foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
+        $files = Arr::where(vgb_app(FilesystemContract::class)->allFiles($configPath), function ($file) {
+            return $file->getExtension() === 'php';
+        });
+
+        foreach ($files as $file) {
             $directory = $this->getNestedDirectory($file, $configPath);
 
             $files[$directory.basename($file->getRealPath(), '.php')] = $file->getRealPath();
