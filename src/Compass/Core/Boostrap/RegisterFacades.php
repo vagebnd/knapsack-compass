@@ -2,7 +2,7 @@
 
 namespace Knapsack\Compass\Core\Boostrap;
 
-use Illuminate\Support\Facades\Facade;
+use Knapsack\Compass\Support\Facade;
 use Knapsack\Compass\Contracts\Bootstrapable;
 
 class RegisterFacades implements Bootstrapable

@@ -2,9 +2,7 @@
 
 namespace Knapsack\Compass\Support\Facades;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\LazyCollection;
+use Knapsack\Compass\Support\Facade;
 use Knapsack\Compass\Support\Request as SupportRequest;
 
 /**

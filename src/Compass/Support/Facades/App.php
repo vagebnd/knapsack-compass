@@ -2,7 +2,7 @@
 
 namespace Knapsack\Compass\Support\Facades;
 
-use Illuminate\Support\Facades\Facade;
+use Knapsack\Compass\Support\Facade;
 use Knapsack\Compass\App as CompassApp;
 
 /**

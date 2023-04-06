@@ -2,14 +2,9 @@
 
 namespace Knapsack\Compass\Support\Facades;
 
-use Illuminate\Support\Facades\Facade;
 use Knapsack\Compass\Routing\Router;
+use Knapsack\Compass\Support\Facade;
 
-/**
- * @method static \Compass\Routing\Router template(string $template, array|string|callable|null $action = null)
- *
- * @see \Illuminate\Routing\Router
- */
 class Route extends Facade
 {
     public static function getFacadeAccessor()
