@@ -3,7 +3,7 @@
 namespace Knapsack\Compass\Support;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Traits\ForwardsCalls;
+use Knapsack\Compass\Support\Traits\ForwardsCalls;
 
 class Request
 {
