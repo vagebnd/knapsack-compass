@@ -2,8 +2,8 @@
 
 namespace Knapsack\Compass\Routing\Traits;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Reflector;
+use Knapsack\Compass\Support\Collections\Arr;
+use Knapsack\Compass\Support\Reflector;
 use ReflectionClass;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
