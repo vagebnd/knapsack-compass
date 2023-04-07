@@ -9,42 +9,42 @@ use Knapsack\Compass\Support\HigherOrderTapProxy;
 if (! function_exists('vgb_path')) {
     function vgb_path($path = '')
     {
-        return get_template_directory().'/'.$path;
+        return vgb_app()->path($path);
     }
 }
 
 if (! function_exists('vgb_resource_path')) {
     function vgb_resource_path($path = '')
     {
-        return vgb_path('resources/'.$path);
+        return vgb_app()->resourcePath($path);
     }
 }
 
 if (! function_exists('vgb_storage_path')) {
     function vgb_storage_path($path = '')
     {
-        return vgb_path('storage/'.$path);
+        return vgb_app()->storagePath($path);
     }
 }
 
 if (! function_exists('vgb_public_path')) {
     function vgb_public_path($path = '')
     {
-        return vgb_path('public/'.trim($path, '/'));
+        return vgb_app()->publicPath($path);
     }
 }
 
 if (! function_exists('vgb_config_path')) {
     function vgb_config_path($path = '')
     {
-        return vgb_path('config/'.$path);
+        return vgb_app()->configPath($path);
     }
 }
 
 if (! function_exists('vgb_asset')) {
     function vgb_asset($path = '')
     {
-        return get_template_directory_uri().'/public/'.trim($path, '/');
+        return vgb_app()->publicUri($path);
     }
 }
 
