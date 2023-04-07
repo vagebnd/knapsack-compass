@@ -158,7 +158,7 @@ class BladeCompiler
      * Indicates the compile mode.
      * if the constant BLADEONE_MODE is defined, then it is used instead of this field.
      *
-     * @var int=[BladeOne::MODE_AUTO,BladeOne::MODE_DEBUG,BladeOne::MODE_SLOW,BladeOne::MODE_FAST][$i]
+     * @var int=[self::MODE_AUTO,self::MODE_DEBUG,self::MODE_SLOW,self::MODE_FAST][$i]
      */
     protected $mode;
     /** @var int Indicates the number of open switches */
@@ -172,7 +172,7 @@ class BladeCompiler
      *
      * @param string|array $templatePath If null then it uses (caller_folder)/views
      * @param string       $compiledPath If null then it uses (caller_folder)/compiles
-     * @param int          $mode         =[BladeOne::MODE_AUTO,BladeOne::MODE_DEBUG,BladeOne::MODE_FAST,BladeOne::MODE_SLOW][$i]
+     * @param int          $mode         =[self::MODE_AUTO,self::MODE_DEBUG,self::MODE_FAST,self::MODE_SLOW][$i]
      */
     public function __construct($templatePath = null, $compiledPath = null, $mode = 0)
     {
