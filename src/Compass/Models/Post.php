@@ -13,13 +13,18 @@ class Post
 
     public static function find($ID): ?self
     {
-        return new self($ID);
+        return new self(get_post($ID));
     }
 
-    public function __construct($ID)
+    public static function make(WP_Post $post)
     {
-        $this->post = get_post($ID);
-        $this->meta = Collection::make(get_post_meta($ID));
+        return new self($post);
+    }
+
+    public function __construct(WP_Post $post)
+    {
+        $this->post = $post;
+        $this->meta = Collection::make(get_post_meta($post->ID));
     }
 
     public function setMeta(iterable $meta)
@@ -38,12 +43,17 @@ class Post
 
     public function __get($key)
     {
-        if ($this->meta->has(vgb_app()->prefix($key))) {
-            return $this->meta->get(vgb_app()->prefix($key))[0] ?? null;
-        }
-
         if (property_exists($this->post, $key)) {
             return $this->post->{$key};
+        }
+
+        // Remove post prefix, it's implied by the model.
+        if (property_exists($this->post, "post_$key")) {
+            return $this->post->{"post_$key"};
+        }
+
+        if ($this->meta->has(vgb_app()->prefix($key))) {
+            return $this->meta->get(vgb_app()->prefix($key))[0] ?? null;
         }
 
         return null;

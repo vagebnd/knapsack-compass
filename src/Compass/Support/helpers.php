@@ -3,6 +3,7 @@
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\Config\Repository;
 use Knapsack\Compass\Contracts\ViewContract;
+use Knapsack\Compass\Models\Post;
 
 if (! function_exists('vgb_path')) {
     function vgb_path($path = '')
@@ -111,5 +112,12 @@ if (! function_exists('vgb_run_controller')) {
     function vgb_run_controller($controller, $method, $parameters = [])
     {
         return vgb_app($controller)->callAction($method, $parameters);
+    }
+}
+
+if (! function_exists('vgb_the_post')) {
+    function vgb_the_post()
+    {
+        return new Post(get_post());
     }
 }
