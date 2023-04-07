@@ -5,3 +5,7 @@ parameters:
     level: 5
     paths:
         - src/
+    ignoreErrors:
+        - '#Constant WP_CONTENT_DIR not found#'
+        - '#Constant WP_CONTENT_URL not found#'
+
