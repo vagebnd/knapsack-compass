@@ -26,9 +26,9 @@ class Kernel implements KernelContract
         LoadRoutes::class,
     ];
 
-    public function __construct()
+    public function __construct($app = null)
     {
-        $this->app = App::getInstance();
+        $this->app = $app ?? App::getInstance();
         $this->bootstrap();
     }
 
