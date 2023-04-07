@@ -1,9 +1,10 @@
 <?php
 
 use Knapsack\Compass\App;
-use Knapsack\Compass\Contracts\Config\Repository;
-use Knapsack\Compass\Contracts\ViewContract;
 use Knapsack\Compass\Models\Post;
+use Knapsack\Compass\Contracts\ViewContract;
+use Knapsack\Compass\Contracts\Config\Repository;
+use Knapsack\Compass\Support\HigherOrderTapProxy;
 
 if (! function_exists('vgb_path')) {
     function vgb_path($path = '')
@@ -119,5 +120,25 @@ if (! function_exists('vgb_the_post')) {
     function vgb_the_post()
     {
         return new Post(get_post());
+    }
+}
+
+if (! function_exists('vgb_tap')) {
+    /**
+     * Call the given Closure with the given value then return the value.
+     *
+     * @param  mixed  $value
+     * @param  callable|null  $callback
+     * @return mixed
+     */
+    function vgb_tap($value, $callback = null)
+    {
+        if (is_null($callback)) {
+            return new HigherOrderTapProxy($value);
+        }
+
+        $callback($value);
+
+        return $value;
     }
 }
