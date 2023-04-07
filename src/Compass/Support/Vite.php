@@ -32,14 +32,14 @@ class Vite
 
     public function asset($asset)
     {
-        $manifest = $this->manifest();
-
-        $this->preloadImports($manifest, $asset);
-
         if ($this->isRunningHot()) {
             $file = $this->hotAsset($asset);
         } else {
+            $manifest = $this->manifest();
+
+            $this->preloadImports($manifest, $asset);
             $this->loadAssetCss($manifest, $asset);
+
             $chunk = $this->chunk($manifest, $asset);
             $file = $this->assetUrl($chunk['file']);
         }
