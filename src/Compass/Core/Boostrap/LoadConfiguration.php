@@ -38,9 +38,9 @@ class LoadConfiguration implements Bootstrapable
     {
         $files = [];
 
-        $configPath = realpath(vgb_config_path());
+        $configPath = realpath($app->configPath());
 
-        $files = Arr::where(vgb_app(FilesystemContract::class)->allFiles($configPath), function ($file) {
+        $files = Arr::where($app->make(FilesystemContract::class)->allFiles($configPath), function ($file) {
             return $file->getExtension() === 'php';
         });
 

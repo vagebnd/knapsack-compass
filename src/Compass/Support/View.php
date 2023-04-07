@@ -2,6 +2,7 @@
 
 namespace Knapsack\Compass\Support;
 
+use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\FilesystemContract;
 use Knapsack\Compass\Contracts\ViewContract;
 use Knapsack\Compass\Support\Traits\ForwardsCalls;
@@ -13,11 +14,11 @@ class View implements ViewContract
 
     protected $blade;
 
-    public function __construct()
+    public function __construct(App $app)
     {
         $this->blade = new BladeCompiler(
-            vgb_resource_path('views'),
-            vgb_storage_path('framework/views'),
+            $app->resourcePath('views'),
+            $app->storagePath('framework/views'),
             BladeCompiler::MODE_AUTO,
         );
 

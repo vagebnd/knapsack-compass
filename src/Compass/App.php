@@ -13,14 +13,38 @@ class App extends Container
      */
     protected bool $hasBeenBootstrapped = false;
 
-    public function __construct()
+    /**
+     * Determine if the application should bind the instance to itself.
+     * Allows the container to be reused for multiple applications.
+     */
+    protected bool $shouldBindInstance = true;
+
+    /**
+     * The base path for the container.
+     *
+     * @var string
+     */
+    protected $basePath;
+
+    /**
+     * The base URI for the application.
+     *
+     * @var string
+     */
+    protected $baseUri;
+
+    public function __construct($basePath = null, $baseUri = null)
     {
+        $this->setBasePath($basePath ?? get_template_directory());
+        $this->setBaseUri($baseUri ?? get_template_directory_uri());
         $this->registerBaseBindings();
     }
 
     protected function registerBaseBindings()
     {
-        static::setInstance($this);
+        if ($this->shouldBindInstance) {
+            static::setInstance($this);
+        }
 
         $this->instance('app', $this);
 
@@ -65,5 +89,64 @@ class App extends Container
     public function unprefix(string $value)
     {
         return Str::after($value, $this->getName().'_');
+    }
+
+    public function setBasePath(string $path)
+    {
+        $this->basePath = rtrim($path, '\/');
+        return $this;
+    }
+
+    public function path(string $path = '')
+    {
+        return $this->joinPaths($this->basePath, $path);
+    }
+
+    public function resourcePath(string $path = '')
+    {
+        return $this->joinPaths($this->path('resources'), $path);
+    }
+
+    public function storagePath(string $path = '')
+    {
+        return $this->joinPaths($this->path('storage'), $path);
+    }
+
+    public function publicPath(string $path = '')
+    {
+        return $this->joinPaths($this->path('public'), $path);
+    }
+
+    public function configPath(string $path = '')
+    {
+        return $this->joinPaths($this->path('config'), $path);
+    }
+
+    public function setBaseUri(string $path = '')
+    {
+        $this->baseUri = rtrim($path, '\/');
+        return $this;
+    }
+
+    public function uri(string $path = '')
+    {
+        return $this->joinPaths($this->baseUri, $path);
+    }
+
+    public function publicUri(string $path = '')
+    {
+        return $this->joinPaths($this->uri('public'), $path);
+    }
+
+    /**
+     * Join the given paths together.
+     *
+     * @param  string  $basePath
+     * @param  string  $path
+     * @return string
+     */
+    public function joinPaths($basePath, $path = '')
+    {
+        return $basePath.($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 }
