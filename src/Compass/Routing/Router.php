@@ -75,7 +75,7 @@ class Router
     {
         if (is_null($path)) {
             // Make this more flexible.
-            $path = get_template_directory().'/routes/templates.php';
+            $path = $this->container->path('routes/templates.php');
         }
 
         if (file_exists($path)) {
