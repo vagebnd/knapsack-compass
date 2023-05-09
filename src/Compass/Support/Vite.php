@@ -3,6 +3,7 @@
 namespace Knapsack\Compass\Support;
 
 use Exception;
+use Knapsack\Compass\App;
 use Knapsack\Compass\Exceptions\ViteException;
 
 class Vite
@@ -11,6 +12,8 @@ class Vite
 
     protected $manifestFilename = 'manifest.json';
 
+    protected $container = null;
+
     /**
      * The cached manifest files.
      *
@@ -18,9 +21,10 @@ class Vite
      */
     protected static $manifests = [];
 
-    public function __construct($buildDirectory = 'assets')
+    public function __construct($buildDirectory = 'assets', App $container = null)
     {
         $this->buildDirectory = $buildDirectory;
+        $this->container = $container ?? App::getInstance();
 
         add_filter('script_loader_tag', $this->configureModuleScriptLoading(), 10, 3);
     }
@@ -111,7 +115,7 @@ class Vite
 
     protected function manifestPath()
     {
-        return vgb_public_path($this->buildDirectory).DIRECTORY_SEPARATOR.$this->manifestFilename;
+        return $this->container->publicPath($this->buildDirectory).DIRECTORY_SEPARATOR.$this->manifestFilename;
     }
 
     protected function manifest()
@@ -147,12 +151,12 @@ class Vite
 
     public function hotFile()
     {
-        return vgb_public_path('hot');
+        return $this->container->publicPath('hot');
     }
 
     public function assetUrl(string $asset)
     {
-        return vgb_asset($this->buildDirectory.'/'.$asset);
+        return $this->container->publicUri($this->buildDirectory.'/'.$asset);
     }
 
     /**
