@@ -2,8 +2,8 @@
 
 namespace Knapsack\Compass;
 
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Knapsack\Compass\Support\Facades\Config;
 
 class App extends Container
@@ -37,6 +37,7 @@ class App extends Container
     {
         $this->setBasePath($basePath ?? get_template_directory());
         $this->setBaseUri($baseUri ?? get_template_directory_uri());
+
         $this->registerBaseBindings();
     }
 
@@ -83,6 +84,7 @@ class App extends Container
 
     public function prefix(string $value)
     {
+        // TODO: This should be a safe prefix, snake case it.
         return Str::start($value, $this->getName().'_');
     }
 
