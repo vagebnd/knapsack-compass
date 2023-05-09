@@ -3,7 +3,6 @@
 namespace Knapsack\Compass\Support;
 
 use Knapsack\Compass\App;
-use Knapsack\Compass\Contracts\FilesystemContract;
 use Knapsack\Compass\Contracts\ViewContract;
 use Knapsack\Compass\Support\Traits\ForwardsCalls;
 use Knapsack\Compass\Support\View\BladeCompiler;
