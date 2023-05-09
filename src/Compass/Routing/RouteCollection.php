@@ -3,6 +3,8 @@
 namespace Knapsack\Compass\Routing;
 
 use Knapsack\Compass\Exceptions\RouteException;
+use Knapsack\Compass\Routing\Routes\TemplateRoute;
+use Knapsack\Compass\Routing\Routes\AdminPageRoute;
 
 class RouteCollection
 {
@@ -10,20 +12,35 @@ class RouteCollection
 
     public function add(Route $route)
     {
-        if (isset($this->routes[$route->template])) {
-            throw RouteException::routeAlreadyExists($route->template);
+        // TODO: We should check the action also.
+        if (isset($this->routes[$route->endpoint])) {
+            throw RouteException::routeAlreadyExists($route->endpoint);
         }
 
-        $this->routes[$route->template] = $route;
+        $this->routes[$route->endpoint] = $route;
     }
 
-    public function find(string $template)
+    public function find(string $endpoint)
     {
-        return $this->routes[$template] ?? null;
+        return $this->routes[$endpoint] ?? null;
     }
 
     public function all()
     {
         return $this->routes;
+    }
+
+    public function listTemplateRoutes()
+    {
+        return array_filter($this->routes, function ($route) {
+            return $route instanceof TemplateRoute;
+        });
+    }
+
+    public function listAdminRoutes()
+    {
+        return array_filter($this->routes, function ($route) {
+            return $route instanceof AdminPageRoute;
+        });
     }
 }

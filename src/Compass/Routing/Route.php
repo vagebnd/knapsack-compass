@@ -7,20 +7,24 @@ use Knapsack\Compass\Contracts\Serializable;
 
 class Route implements Serializable
 {
-    public string $template;
+    public string $endpoint;
+
+    public string $method;
 
     /**
      * @var string|callable|null
      */
     protected $action;
 
+
     /**
      * @param  array|callable|null  $action
      */
-    public function __construct($template, $action = null)
+    public function __construct($endpoint, $action = null, $method = 'GET')
     {
-        $this->template = $template;
+        $this->endpoint = $endpoint;
         $this->action = $action;
+        $this->method = $method;
     }
 
     public function run()
@@ -31,7 +35,7 @@ class Route implements Serializable
 
         [$controller, $method] = $this->getValidatedAction();
 
-        return vgb_app($controller)->callAction($method, []);
+        vgb_app($controller)->callAction($method, []);
     }
 
     public function adminRun()
@@ -45,17 +49,12 @@ class Route implements Serializable
         vgb_app($controller)->adminRun();
     }
 
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-
     public function serialize()
     {
         return sha1(json_encode($this));
     }
 
-    private function getValidatedAction()
+    protected function getValidatedAction()
     {
         if (! is_array($this->action) || count($this->action) !== 2) {
             throw new InvalidArgumentException('Invalid action, Actions must be an array with a controller class string and method.');

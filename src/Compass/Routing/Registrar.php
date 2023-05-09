@@ -3,6 +3,9 @@
 namespace Knapsack\Compass\Routing;
 
 use Knapsack\Compass\Exceptions\HttpResponseException;
+use Knapsack\Compass\Routing\Registrar\RequestHandler;
+use Knapsack\Compass\Support\Collections\Arr;
+use RuntimeException;
 
 class Registrar
 {
@@ -12,8 +15,9 @@ class Registrar
     {
         $this->router = $router;
 
-        add_filter('theme_page_templates', $this->register(), 10, 1);
+        add_filter('theme_page_templates', $this->registerPageTemplates(), 10, 1);
         add_filter('template_include', $this->resolve(), 10, 3);
+        add_action('admin_menu', $this->registerAdminPages());
     }
 
     public static function make(Router $router)
@@ -21,10 +25,23 @@ class Registrar
         return new self($router);
     }
 
-    protected function register()
+    protected function registerAdminPages()
+    {
+        return function () {
+            foreach ($this->router->listAdminRoutes() as $adminPageRoute) {
+                $adminPageRoute->getRootPage()->add();
+
+                $adminPageRoute->listSubPages()->each(function ($subPage) {
+                    $subPage->add();
+                });
+            }
+        };
+    }
+
+    protected function registerPageTemplates()
     {
         return function ($templates) {
-            foreach ($this->router->listRoutes() as $route) {
+            foreach ($this->router->listTemplateRoutes() as $route) {
                 $templates[$route->serialize()] = $route->getTemplate();
             }
 
