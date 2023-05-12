@@ -16,7 +16,6 @@ class Route implements Serializable
      */
     protected $action;
 
-
     /**
      * @param  array|callable|null  $action
      */
@@ -35,7 +34,7 @@ class Route implements Serializable
 
         [$controller, $method] = $this->getValidatedAction();
 
-        vgb_app($controller)->callAction($method, []);
+        return vgb_app($controller)->callAction($method, []);
     }
 
     public function adminRun()

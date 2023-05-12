@@ -3,8 +3,9 @@
 namespace Knapsack\Compass\Routing;
 
 use Knapsack\Compass\App;
-use Knapsack\Compass\Routing\Routes\TemplateRoute;
 use Knapsack\Compass\Routing\Routes\AdminPageRoute;
+use Knapsack\Compass\Routing\Routes\TemplateRoute;
+use Skeleton\Support\Plugin;
 
 class Router
 {
@@ -51,8 +52,6 @@ class Router
 
     /**
      * Add a route to the underlying route collection
-     *
-     * @param Route $route
      */
     public function addRoute(Route $route)
     {
@@ -120,5 +119,65 @@ class Router
         }
 
         return $this;
+    }
+
+    public function get(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'GET');
+    }
+
+    public function post(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'POST');
+    }
+
+    public function delete(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'DELETE');
+    }
+
+    public function put(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'PUT');
+    }
+
+    public function patch(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'PATCH');
+    }
+
+    public function options(string $path, array $action)
+    {
+        $this->registerRoute($path, $action, 'OPTIONS');
+    }
+
+    private function registerRoute(string $path, array $action, string $method = 'GET')
+    {
+        $route = new Route($path, $action, $method);
+        $trace = debug_backtrace();
+        $filename = pathinfo(basename($trace[2]['file']), PATHINFO_FILENAME);
+
+        switch($filename) {
+            case 'api':
+                $this->registerApiRoute($route);
+                break;
+        }
+    }
+
+    private function registerApiRoute(Route $route)
+    {
+        add_action('rest_api_init', function () use ($route) {
+            $pluginName = Plugin::getInstance()->make('config')->get('app.name');
+
+            register_rest_route($pluginName, $route->endpoint, [
+                'methods' => 'GET',
+                'callback' => function () use ($route) {
+                    return new \WP_REST_Response($route->run(), 200);
+                },
+                'permission_callback' => function () {
+                    return true;
+                },
+            ]);
+        });
     }
 }
