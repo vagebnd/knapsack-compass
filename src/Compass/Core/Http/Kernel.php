@@ -4,13 +4,13 @@ namespace Knapsack\Compass\Core\Http;
 
 use Knapsack\Compass\App;
 use Knapsack\Compass\Contracts\KernelContract;
-use Knapsack\Compass\Core\Boostrap\ConfigureFilesystem;
-use Knapsack\Compass\Core\Boostrap\ConfigureViews;
-use Knapsack\Compass\Core\Boostrap\HandleExceptions;
-use Knapsack\Compass\Core\Boostrap\LoadConfiguration;
-use Knapsack\Compass\Core\Boostrap\LoadRoutes;
-use Knapsack\Compass\Core\Boostrap\RegisterBindings;
-use Knapsack\Compass\Core\Boostrap\RegisterFacades;
+use Knapsack\Compass\Core\Bootstrap\ConfigureFilesystem;
+use Knapsack\Compass\Core\Bootstrap\ConfigureViews;
+use Knapsack\Compass\Core\Bootstrap\HandleExceptions;
+use Knapsack\Compass\Core\Bootstrap\LoadConfiguration;
+use Knapsack\Compass\Core\Bootstrap\LoadRoutes;
+use Knapsack\Compass\Core\Bootstrap\RegisterBindings;
+use Knapsack\Compass\Core\Bootstrap\RegisterFacades;
 
 class Kernel implements KernelContract
 {
