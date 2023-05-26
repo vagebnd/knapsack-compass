@@ -6,8 +6,8 @@ use Illuminate\Support\Collection;
 use Knapsack\Compass\Routing\Registrar\RequestHandler;
 use Knapsack\Compass\Support\Collections\Arr;
 
-class Page {
-
+class Page
+{
     protected Collection $methods;
 
     protected array $attributes = [];
