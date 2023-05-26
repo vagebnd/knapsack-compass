@@ -2,14 +2,14 @@
 
 namespace Knapsack\Compass\Support\View;
 
+use ArrayAccess;
+use BadMethodCallException;
 use Closure;
 use Countable;
 use Exception;
-use Throwable;
-use ArrayAccess;
-use BadMethodCallException;
 use InvalidArgumentException;
 use Knapsack\Compass\Support\Collections\Arr;
+use Throwable;
 
 class BladeCompiler
 {
@@ -209,7 +209,6 @@ class BladeCompiler
             return false;
         };
 
-
         // If the "traits" has "Constructors", then we call them.
         // Requisites.
         // 1- the method must be public or protected
@@ -232,7 +231,6 @@ class BladeCompiler
      * @param string $text        Message of the error
      * @param bool   $critic      if true then the compilation is ended, otherwise it continues
      * @param bool   $alwaysThrow if true then it always throws a runtime exception.
-     * @return string
      * @throws \RuntimeException
      */
     public function showError($id, $text, $critic = false, $alwaysThrow = false): string
@@ -255,7 +253,6 @@ class BladeCompiler
      * Escape HTML entities in a string.
      *
      * @param int|string|object|array|null $value
-     * @return string
      */
     public static function e($value): string
     {
@@ -268,7 +265,7 @@ class BladeCompiler
         }
 
         if (\is_numeric($value)) {
-            $value=(string)$value;
+            $value=(string) $value;
         }
         return \htmlentities($value, ENT_QUOTES, 'UTF-8', false);
     }
@@ -281,7 +278,6 @@ class BladeCompiler
     /**
      * @param mixed|\DateTime $variable
      * @param string|null     $format
-     * @return string
      */
     public function format($variable, $format = null): string
     {
@@ -298,14 +294,13 @@ class BladeCompiler
      * @param ?string $input The input value
      * @param string $quote The quote used (to quote the result)
      * @param bool   $parse If the result will be parsed or not. If false then it's returned without $this->e
-     * @return string
      */
     public function wrapPHP($input, $quote = '"', $parse = true): string
     {
         if($input===null) {
             return 'null';
         }
-        if (strpos($input, '(') !== false && !$this->isQuoted($input)) {
+        if (strpos($input, '(') !== false && ! $this->isQuoted($input)) {
             if ($parse) {
                 return $quote . $this->phpTagEcho . '$this->e(' . $input . ');?>' . $quote;
             }
@@ -329,11 +324,10 @@ class BladeCompiler
      * Returns true if the text is surrounded by quotes (double or single quote)
      *
      * @param string|null $text
-     * @return bool
      */
     public function isQuoted($text): bool
     {
-        if (!$text || strlen($text) < 2) {
+        if (! $text || strlen($text) < 2) {
             return false;
         }
         if ($text[0] === '"' && substr($text, -1) === '"') {
@@ -346,7 +340,6 @@ class BladeCompiler
      * Escape HTML entities in a string.
      *
      * @param string|array|object $value
-     * @return string
      */
     public static function enq($value): string
     {
@@ -363,7 +356,7 @@ class BladeCompiler
      */
     public function addInclude($view, $alias = null): void
     {
-        if (!isset($alias)) {
+        if (! isset($alias)) {
             $alias = \explode('.', $view);
             $alias = \end($alias);
         }
@@ -378,8 +371,6 @@ class BladeCompiler
      * Register a handler for custom directives.
      *
      * @param string   $name
-     * @param callable $handler
-     * @return void
      */
     public function directive($name, callable $handler): void
     {
@@ -391,7 +382,6 @@ class BladeCompiler
      * Strip the parentheses from the given expression.
      *
      * @param string|null $expression
-     * @return string
      */
     public function stripParentheses($expression): string
     {
@@ -411,11 +401,10 @@ class BladeCompiler
      *
      * @param string       $haystack
      * @param string|array $needles
-     * @return bool
      */
     public static function startsWith($haystack, $needles): bool
     {
-        foreach ((array)$needles as $needle) {
+        foreach ((array) $needles as $needle) {
             if ($needle != '') {
                 if (\function_exists('mb_strpos')) {
                     if ($haystack !== null && \mb_strpos($haystack, $needle) === 0) {
@@ -436,12 +425,11 @@ class BladeCompiler
      * It also sets the mode to MODE_SLOW
      *
      * @param bool $bool
-     * @return self
      */
     public function setIsCompiled($bool = false): self
     {
         $this->isCompiled = $bool;
-        if (!$bool) {
+        if (! $bool) {
             $this->setMode(self::MODE_SLOW);
         }
 
@@ -469,9 +457,6 @@ class BladeCompiler
         $this->compiledPath = $compiledPath;
     }
 
-    /**
-     * @return array
-     */
     public function getAliasClasses(): array
     {
         return $this->aliasClasses;
@@ -559,7 +544,6 @@ class BladeCompiler
      * Compile the given Blade template contents.
      *
      * @param string $value
-     * @return string
      */
     public function compileString($value): string
     {
@@ -575,7 +559,7 @@ class BladeCompiler
             $result .= \is_array($token) ? $this->parseToken($token) : $token;
         }
 
-        if (!empty($this->verbatimBlocks)) {
+        if (! empty($this->verbatimBlocks)) {
             $result = $this->restoreVerbatimBlocks($result);
         }
 
@@ -594,7 +578,6 @@ class BladeCompiler
      * Store the verbatim blocks and replace them with a temporary placeholder.
      *
      * @param string $value
-     * @return string
      */
     protected function storeVerbatimBlocks($value): string
     {
@@ -609,7 +592,6 @@ class BladeCompiler
      *
      * @param array $token
      *
-     * @return string
      *
      * @see BladeOne::compileStatements
      * @see BladeOne::compileExtends
@@ -631,7 +613,6 @@ class BladeCompiler
      * Replace the raw placeholders with the original code stored in the raw blocks.
      *
      * @param string $result
-     * @return string
      */
     protected function restoreVerbatimBlocks($result): string
     {
@@ -679,7 +660,6 @@ class BladeCompiler
      * Compile the push statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     public function compilePush($expression): string
     {
@@ -690,7 +670,6 @@ class BladeCompiler
      * Compile the push statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     public function compilePushOnce($expression): string
     {
@@ -702,7 +681,6 @@ class BladeCompiler
      * Compile the push statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     public function compilePrepend($expression): string
     {
@@ -714,7 +692,6 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     public function startPush($section, $content = ''): void
     {
@@ -736,14 +713,13 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     protected function extendPush($section, $content): void
     {
-        if (!isset($this->pushes[$section])) {
+        if (! isset($this->pushes[$section])) {
             $this->pushes[$section] = []; // start an empty section
         }
-        if (!isset($this->pushes[$section][$this->renderCount])) {
+        if (! isset($this->pushes[$section][$this->renderCount])) {
             $this->pushes[$section][$this->renderCount] = $content;
         } else {
             $this->pushes[$section][$this->renderCount] .= $content;
@@ -755,7 +731,6 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     public function startPrepend($section, $content = ''): void
     {
@@ -771,7 +746,6 @@ class BladeCompiler
     /**
      * Stop injecting content into a push section.
      *
-     * @return string
      */
     public function stopPush(): string
     {
@@ -787,7 +761,6 @@ class BladeCompiler
     /**
      * Stop injecting content into a push section.
      *
-     * @return string
      */
     public function stopPrepend(): string
     {
@@ -804,14 +777,13 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     protected function extendStartPush($section, $content): void
     {
-        if (!isset($this->pushes[$section])) {
+        if (! isset($this->pushes[$section])) {
             $this->pushes[$section] = []; // start an empty section
         }
-        if (!isset($this->pushes[$section][$this->renderCount])) {
+        if (! isset($this->pushes[$section][$this->renderCount])) {
             $this->pushes[$section][$this->renderCount] = $content;
         } else {
             $this->pushes[$section][$this->renderCount] = $content . $this->pushes[$section][$this->renderCount];
@@ -823,11 +795,10 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $default
-     * @return string
      */
     public function yieldPushContent($section, $default = ''): string
     {
-        if (!isset($this->pushes[$section])) {
+        if (! isset($this->pushes[$section])) {
             return $default;
         }
         return \implode(\array_reverse($this->pushes[$section]));
@@ -840,7 +811,6 @@ class BladeCompiler
      *                         if "string" or "c3", then it means that it will split in 3 columns<br>
      * @param string     $splitText
      * @param string     $splitEnd
-     * @return string
      */
     public function splitForeach($each = 1, $splitText = ',', $splitEnd = ''): string
     {
@@ -869,9 +839,6 @@ class BladeCompiler
      * Return the last element in an array passing a given truth test.
      *
      * @param array         $array
-     * @param callable|null $callback
-     * @param mixed         $default
-     * @return mixed
      */
     public static function last($array, callable $callback = null, $default = null)
     {
@@ -884,8 +851,6 @@ class BladeCompiler
     /**
      * Return the default value of the given value.
      *
-     * @param mixed $value
-     * @return mixed
      */
     public static function value($value)
     {
@@ -896,9 +861,6 @@ class BladeCompiler
      * Return the first element in an array passing a given truth test.
      *
      * @param array         $array
-     * @param callable|null $callback
-     * @param mixed         $default
-     * @return mixed
      */
     public static function first($array, callable $callback = null, $default = null)
     {
@@ -932,8 +894,6 @@ class BladeCompiler
      * Register an "if" statement directive.
      *
      * @param string   $name
-     * @param callable $callback
-     * @return string
      */
     public function registerIfStatement($name, callable $callback): string
     {
@@ -964,7 +924,6 @@ class BladeCompiler
      *
      * @param string $name
      * @param array  $parameters
-     * @return bool
      */
     public function check($name, ...$parameters): bool
     {
@@ -975,7 +934,6 @@ class BladeCompiler
      * @param bool   $bool
      * @param string $view  name of the view
      * @param array  $value arrays of values
-     * @return string
      * @throws Exception
      */
     public function includeWhen($bool = false, $view = '', $value = []): string
@@ -989,14 +947,12 @@ class BladeCompiler
     /**
      * Macro of function run
      *
-     * @param $view
      * @param array $variables
-     * @return string
      * @throws Exception
      */
     public function runChild($view, $variables = []): string
     {
-         if ($this->includeScope) {
+        if ($this->includeScope) {
             $backup = $this->variables;
         } else {
             $backup = null;
@@ -1021,7 +977,6 @@ class BladeCompiler
      * @param bool   $forced  if true then it recompiles no matter if the compiled file exists or not.
      * @param bool   $runFast if true then the code is not compiled neither checked, and it runs directly the compiled
      *                        version.
-     * @return string
      * @throws Exception
      * @noinspection PhpUnusedParameterInspection
      */
@@ -1033,11 +988,11 @@ class BladeCompiler
         }
         if (@\count($this->variablesGlobal) > 0) {
             $this->variables = \array_merge($variables, $this->variablesGlobal);
-            //$this->variablesGlobal = []; // used so we delete it.
+        //$this->variablesGlobal = []; // used so we delete it.
         } else {
             $this->variables = $variables;
         }
-        if (!$runFast) {
+        if (! $runFast) {
             // a) if the "compile" is forced then we compile the original file, then save the file.
             // b) if the "compile" is not forced then we read the datetime of both file, and we compared.
             // c) in both cases, if the compiled doesn't exist then we compile.
@@ -1045,7 +1000,7 @@ class BladeCompiler
                 $this->fileName = $view;
             }
             $result = $this->compile($view, $forced);
-            if (!$this->isCompiled) {
+            if (! $this->isCompiled) {
                 return $this->evaluateText($result, $this->variables);
             }
         } elseif ($view) {
@@ -1101,7 +1056,6 @@ class BladeCompiler
      * @param string      $text
      * @param string|null $textWithWildcard
      *
-     * @return bool
      */
     protected function wildCardComparison($text, $textWithWildcard): bool
     {
@@ -1157,7 +1111,7 @@ class BladeCompiler
     {
         $compiled = $this->getCompiledFile($templateName);
         $template = $this->getTemplateFile($templateName);
-        if (!$this->isCompiled) {
+        if (! $this->isCompiled) {
             $contents = $this->compileString($this->getFile($template));
             $this->compileCallBacks($contents, $templateName);
             return $contents;
@@ -1187,7 +1141,6 @@ class BladeCompiler
      * Get the full path of the compiled file.
      *
      * @param string $templateName
-     * @return string
      */
     public function getCompiledFile($templateName = ''): string
     {
@@ -1206,8 +1159,6 @@ class BladeCompiler
         return $this->compiledPath . '/' . basename($templateName) . '_' . $hash . $this->compileExtension;
     }
 
-
-
     /**
      * Get the mode of the engine.See BladeOne::MODE_* constants
      *
@@ -1225,7 +1176,6 @@ class BladeCompiler
      * Set the compile mode<br>
      *
      * @param $mode int=[self::MODE_AUTO,self::MODE_DEBUG,self::MODE_FAST,self::MODE_SLOW][$i]
-     * @return void
      */
     public function setMode($mode): void
     {
@@ -1237,7 +1187,6 @@ class BladeCompiler
      * <p>Example: getTemplateFile('.abc.def')</p>
      *
      * @param string $templateName template name. If not template is set then it uses the base template.
-     * @return string
      */
     public function getTemplateFile($templateName = ''): string
     {
@@ -1273,7 +1222,7 @@ class BladeCompiler
                 return $path;
             }
 
-            $this->notFoundPath .= $path . ",";
+            $this->notFoundPath .= $path . ',';
         }
         return '';
     }
@@ -1283,7 +1232,6 @@ class BladeCompiler
      *
      * @param string $fullFileName It gets the content of a filename or returns ''.
      *
-     * @return string
      */
     public function getFile($fullFileName): string
     {
@@ -1296,7 +1244,7 @@ class BladeCompiler
 
     protected function compileCallBacks(&$contents, $templateName): void
     {
-        if (!empty($this->compileCallbacks)) {
+        if (! empty($this->compileCallbacks)) {
             foreach ($this->compileCallbacks as $callback) {
                 if (is_callable($callback)) {
                     $callback($contents, $templateName);
@@ -1309,13 +1257,12 @@ class BladeCompiler
      * Determine if the view has expired.
      *
      * @param string|null $fileName
-     * @return bool
      */
     public function isExpired($fileName): bool
     {
         $compiled = $this->getCompiledFile($fileName);
         $template = $this->getTemplateFile($fileName);
-        if (!\is_file($template)) {
+        if (! \is_file($template)) {
             if ($this->mode == self::MODE_DEBUG) {
                 $this->showError('Read file', 'Template not found :' . $this->fileName . " on file: $template", true);
             } else {
@@ -1325,7 +1272,7 @@ class BladeCompiler
         // If the compiled file doesn't exist we will indicate that the view is expired
         // so that it can be re-compiled. Else, we will verify the last modification
         // of the views is less than the modification times of the compiled views.
-        if (!$this->compiledPath || !\is_file($compiled)) {
+        if (! $this->compiledPath || ! \is_file($compiled)) {
             return true;
         }
         return \filemtime($compiled) < \filemtime($template);
@@ -1336,7 +1283,6 @@ class BladeCompiler
      *
      * @param string $content
      * @param array  $variables
-     * @return string
      * @throws Exception
      */
     protected function evaluateText($content, $variables): string
@@ -1370,7 +1316,6 @@ class BladeCompiler
      *
      * @param string $compiledFile full path of the compile file.
      * @param array  $variables
-     * @return string
      * @throws Exception
      */
     protected function evaluatePath($compiledFile, $variables): string
@@ -1393,7 +1338,6 @@ class BladeCompiler
     /**
      * @param array $views array of views
      * @param array $value
-     * @return string
      * @throws Exception
      */
     public function includeFirst($views = [], $value = []): string
@@ -1409,8 +1353,6 @@ class BladeCompiler
     /**
      * Returns true if the template exists. Otherwise, it returns false
      *
-     * @param $templateName
-     * @return bool
      */
     protected function templateExist($templateName): bool
     {
@@ -1422,11 +1364,10 @@ class BladeCompiler
      * Convert an array such as ["class1"=>"myclass","style="mystyle"] to class1='myclass' style='mystyle' string
      *
      * @param array|string $array array to convert
-     * @return string
      */
     public function convertArg($array): string
     {
-        if (!\is_array($array)) {
+        if (! \is_array($array)) {
             return $array;  // nothing to convert.
         }
         return \implode(' ', \array_map('static::convertArgCallBack', \array_keys($array), $array));
@@ -1439,7 +1380,6 @@ class BladeCompiler
      * @param bool   $fullToken It returns a token with the current ip.
      * @param string $tokenId   [optional] Name of the token.
      *
-     * @return string
      */
     public function getCsrfToken($fullToken = false, $tokenId = '_token'): string
     {
@@ -1522,7 +1462,6 @@ class BladeCompiler
      * Stop injecting content into a section.
      *
      * @param bool $overwrite
-     * @return string
      */
     public function stopSection($overwrite = false): string
     {
@@ -1543,7 +1482,6 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     protected function extendSection($section, $content): void
     {
@@ -1555,7 +1493,7 @@ class BladeCompiler
 
     public function dump($object, $jsconsole = false): void
     {
-        if (!$jsconsole) {
+        if (! $jsconsole) {
             echo '<pre>';
             \var_dump($object);
             echo '</pre>';
@@ -1571,7 +1509,6 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $content
-     * @return void
      */
     public function startSection($section, $content = ''): void
     {
@@ -1585,7 +1522,6 @@ class BladeCompiler
     /**
      * Stop injecting content into a section and append it.
      *
-     * @return string
      * @throws InvalidArgumentException
      */
     public function appendSection(): string
@@ -1613,7 +1549,6 @@ class BladeCompiler
      * </pre>
      *
      * @param string|array $varname It is the name of the variable or, it is an associative array
-     * @param mixed        $value
      * @return $this
      */
     public function with($varname, $value = null): self
@@ -1632,7 +1567,6 @@ class BladeCompiler
      * </pre>
      *
      * @param string|array $varname It is the name of the variable, or it is an associative array
-     * @param mixed        $value
      * @return $this
      */
     public function share($varname, $value = null): self
@@ -1650,7 +1584,6 @@ class BladeCompiler
      *
      * @param string $section
      * @param string $default
-     * @return string
      */
     public function yieldContent($section, $default = ''): string
     {
@@ -1664,8 +1597,6 @@ class BladeCompiler
     /**
      * Register a custom Blade compiler.
      *
-     * @param callable $compiler
-     * @return void
      */
     public function extend(callable $compiler): void
     {
@@ -1676,8 +1607,6 @@ class BladeCompiler
      * Register a handler for custom directives for run at runtime
      *
      * @param string   $name
-     * @param callable $handler
-     * @return void
      */
     public function directiveRT($name, callable $handler): void
     {
@@ -1690,7 +1619,6 @@ class BladeCompiler
      *
      * @param string $openTag
      * @param string $closeTag
-     * @return void
      */
     public function setEscapedContentTags($openTag, $closeTag): void
     {
@@ -1700,7 +1628,6 @@ class BladeCompiler
     /**
      * Gets the content tags used for the compiler.
      *
-     * @return array
      */
     public function getContentTags(): array
     {
@@ -1713,7 +1640,6 @@ class BladeCompiler
      * @param string $openTag
      * @param string $closeTag
      * @param bool   $escaped
-     * @return void
      */
     public function setContentTags($openTag, $closeTag, $escaped = false): void
     {
@@ -1725,7 +1651,6 @@ class BladeCompiler
      * Gets the tags used for the compiler.
      *
      * @param bool $escaped
-     * @return array
      */
     protected function getTags($escaped = false): array
     {
@@ -1736,7 +1661,6 @@ class BladeCompiler
     /**
      * Gets the escaped content tags used for the compiler.
      *
-     * @return array
      */
     public function getEscapedContentTags(): array
     {
@@ -1746,7 +1670,6 @@ class BladeCompiler
     /**
      * Sets the function used for resolving classes with inject.
      *
-     * @param callable $function
      */
     public function setInjectResolver(callable $function): void
     {
@@ -1756,7 +1679,6 @@ class BladeCompiler
     /**
      * Get the file extension for template files.
      *
-     * @return string
      */
     public function getFileExtension(): string
     {
@@ -1777,7 +1699,6 @@ class BladeCompiler
     /**
      * Get the file extension for template files.
      *
-     * @return string
      */
     public function getCompiledExtension(): string
     {
@@ -1788,14 +1709,12 @@ class BladeCompiler
      * Set the file extension for the compiled files.
      * Including the leading dot for the extension is required, e.g. ".bladec"
      *
-     * @param $fileExtension
      */
     public function setCompiledExtension($fileExtension): void
     {
         $this->compileExtension = $fileExtension;
     }
     /**
-     * @return string
      * @see BladeOne::setCompileTypeFileName
      */
     public function getCompileTypeFileName(): string
@@ -1808,8 +1727,6 @@ class BladeCompiler
      * <b>auto</b> (default mode) the mode is "sha1"<br>
      * <b>sha1</b> the filename is converted into a sha1 hash (it's the slow method, but it is safest)<br>
      * <b>md5</b> the filename is converted into a md5 hash (it's faster than sha1, and it uses less space)<br>
-     * @param string $compileTypeFileName=['auto','sha1','md5'][$i]
-     * @return self
      */
     public function setCompileTypeFileName(string $compileTypeFileName): self
     {
@@ -1820,7 +1737,6 @@ class BladeCompiler
      * Add new loop to the stack.
      *
      * @param array|Countable|null $data
-     * @return void
      */
     public function addLoop($data): void
     {
@@ -1838,14 +1754,13 @@ class BladeCompiler
             'odd' => false,
             'last' => isset($length) ? $length == 1 : null,
             'depth' => \count($this->loopsStack) + 1,
-            'parent' => $parent ? (object)$parent : null,
+            'parent' => $parent ? (object) $parent : null,
         ];
     }
 
     /**
      * Increment the top loop's indices.
      *
-     * @return object
      */
     public function incrementLoopIndices(): object
     {
@@ -1856,18 +1771,17 @@ class BladeCompiler
         $loop['iteration']++;
         $loop['first'] = $loop['index'] == 0;
         $loop['even'] = $loop['index'] % 2 == 0;
-        $loop['odd'] = !$loop['even'];
+        $loop['odd'] = ! $loop['even'];
         if (isset($loop['count'])) {
             $loop['remaining']--;
             $loop['last'] = $loop['index'] == $loop['count'] - 1;
         }
-        return (object)$loop;
+        return (object) $loop;
     }
 
     /**
      * Pop a loop from the top of the loop stack.
      *
-     * @return void
      */
     public function popLoop(): void
     {
@@ -1877,11 +1791,10 @@ class BladeCompiler
     /**
      * Get an instance of the first loop in the stack.
      *
-     * @return object|null
      */
     public function getFirstLoop(): ?object
     {
-        return ($last = static::last($this->loopsStack)) ? (object)$last : null;
+        return ($last = static::last($this->loopsStack)) ? (object) $last : null;
     }
 
     /**
@@ -1891,7 +1804,6 @@ class BladeCompiler
      * @param array  $data
      * @param string $iterator
      * @param string $empty
-     * @return string
      * @throws Exception
      */
     public function renderEach($view, $data, $iterator, $empty = 'raw|'): string
@@ -1919,7 +1831,6 @@ class BladeCompiler
      *
      * @param string|null $view      The name of the cache. Ex: "folder.folder.view" ("/folder/folder/view.blade")
      * @param array       $variables An associative arrays with the values to display.
-     * @return string
      * @throws Exception
      */
     public function run($view = null, $variables = []): string
@@ -1954,7 +1865,6 @@ class BladeCompiler
      * </pre>
      *
      * @param string $view
-     * @return self
      */
     public function setView($view): self
     {
@@ -1977,7 +1887,6 @@ class BladeCompiler
      * @param string|array|null    $view It could contain wildcards (*). Example: 'aa.bb.cc','*.bb.cc','aa.bb.*','*.bb.*'
      *
      * @param callable|string|null $functionOrClass
-     * @return self
      */
     public function composer($view = null, $functionOrClass = null): self
     {
@@ -2000,8 +1909,6 @@ class BladeCompiler
      * Start a component rendering process.
      *
      * @param string $name
-     * @param array  $data
-     * @return void
      */
     public function startComponent($name, array $data = []): void
     {
@@ -2017,7 +1924,6 @@ class BladeCompiler
     /**
      * Get the index for the current component.
      *
-     * @return int
      */
     protected function currentComponent(): int
     {
@@ -2027,7 +1933,6 @@ class BladeCompiler
     /**
      * Render the current component.
      *
-     * @return string
      * @throws Exception
      */
     public function renderComponent(): string
@@ -2048,7 +1953,6 @@ class BladeCompiler
     /**
      * Get the data for the given component.
      *
-     * @return array
      */
     protected function componentData(): array
     {
@@ -2070,7 +1974,6 @@ class BladeCompiler
      *
      * @param string      $name
      * @param string|null $content
-     * @return void
      */
     public function slot($name, $content = null): void
     {
@@ -2086,7 +1989,6 @@ class BladeCompiler
     /**
      * Save the slot content for rendering.
      *
-     * @return void
      */
     public function endSlot(): void
     {
@@ -2099,9 +2001,6 @@ class BladeCompiler
         $this->slots[$this->currentComponent()][$currentSlot] = \trim(\ob_get_clean());
     }
 
-    /**
-     * @return string
-     */
     public function getPhpTag(): string
     {
         return $this->phpTag;
@@ -2115,9 +2014,6 @@ class BladeCompiler
         $this->phpTag = $phpTag;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrentUser(): string
     {
         return $this->currentUser;
@@ -2131,9 +2027,6 @@ class BladeCompiler
         $this->currentUser = $currentUser;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrentRole(): string
     {
         return $this->currentRole;
@@ -2166,7 +2059,6 @@ class BladeCompiler
     /**
      * Returns the current base url without trailing slash.
      *
-     * @return string
      */
     public function getBaseUrl(): string
     {
@@ -2189,7 +2081,6 @@ class BladeCompiler
      * </pre>
      *
      * @param string $baseUrl Example http://www.web.com/folder  https://www.web.com/folder/anotherfolder
-     * @return self
      */
     public function setBaseUrl($baseUrl): self
     {
@@ -2218,11 +2109,10 @@ class BladeCompiler
      * <b>Note:</b> It returns empty '' if it is called in a command line interface / non-web.<br>
      * <b>Note:</b> It doesn't return the user and password.<br>
      * @param bool $noArgs if true then it excludes the arguments.
-     * @return string
      */
     public function getCurrentUrlCalculated($noArgs = false): string
     {
-        if (!isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {
+        if (! isset($_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'])) {
             return '';
         }
         $host = $this->baseDomain ?? $_SERVER['HTTP_HOST']; // <-- it could be forged!
@@ -2248,7 +2138,6 @@ class BladeCompiler
      * </pre>
      * <b>Note:</b>The relative path is calculated when we set the base url.
      *
-     * @return string
      * @see BladeOne::setBaseUrl
      */
     public function getRelativePath(): string
@@ -2265,7 +2154,6 @@ class BladeCompiler
      * <li>Otherwise, the url is calculated with the information sends by the user</li>
      * </ul>
      *
-     * @return string|null
      */
     public function getCanonicalUrl(): ?string
     {
@@ -2277,7 +2165,6 @@ class BladeCompiler
      * <b>Example:</b> https://www.mysite.com/aaa/bb/php.php?aa=bb
      *
      * @param string|null $canonUrl
-     * @return self
      */
     public function setCanonicalUrl($canonUrl = null): self
     {
@@ -2294,7 +2181,6 @@ class BladeCompiler
      * </ul>
      *
      * @param bool $noArgs if true then it ignores the arguments.
-     * @return string|null
      */
     public function getCurrentUrl($noArgs = false): ?string
     {
@@ -2311,7 +2197,6 @@ class BladeCompiler
      * <b>Note:</b> If the current url is not set, then the system could calculate the current url.
      *
      * @param string|null $currentUrl
-     * @return self
      */
     public function setCurrentUrl($currentUrl = null): self
     {
@@ -2323,7 +2208,6 @@ class BladeCompiler
      * If true then it optimizes the result (it removes tab and extra spaces).
      *
      * @param bool $bool
-     * @return self
      */
     public function setOptimize($bool = false): self
     {
@@ -2334,7 +2218,6 @@ class BladeCompiler
     /**
      * It sets the callback function for authentication. It is used by @can and @cannot
      *
-     * @param callable $fn
      */
     public function setCanFunction(callable $fn): void
     {
@@ -2344,7 +2227,6 @@ class BladeCompiler
     /**
      * It sets the callback function for authentication. It is used by @canany
      *
-     * @param callable $fn
      */
     public function setAnyFunction(callable $fn): void
     {
@@ -2354,7 +2236,6 @@ class BladeCompiler
     /**
      * It sets the callback function for errors. It is used by @error
      *
-     * @param callable $fn
      */
     public function setErrorFunction(callable $fn): void
     {
@@ -2367,7 +2248,6 @@ class BladeCompiler
     /**
      * Get the entire loop stack.
      *
-     * @return array
      */
     public function getLoopStack(): array
     {
@@ -2382,9 +2262,6 @@ class BladeCompiler
      * $this->addInsideQuote("hello"," world"); // hello world
      * </pre>
      *
-     * @param $quoted
-     * @param $newFragment
-     * @return string
      */
     public function addInsideQuote($quoted, $newFragment): string
     {
@@ -2398,11 +2275,10 @@ class BladeCompiler
      * Return true if the string is a php variable (it starts with $)
      *
      * @param string|null $text
-     * @return bool
      */
     public function isVariablePHP($text): bool
     {
-        if (!$text || strlen($text) < 2) {
+        if (! $text || strlen($text) < 2) {
             return false;
         }
         return $text[0] === '$';
@@ -2412,9 +2288,7 @@ class BladeCompiler
      * It's the same as "@_e", however it parses the text (using sprintf).
      * If the operation fails then, it returns the original expression without translation.
      *
-     * @param $phrase
      *
-     * @return string
      */
     public function _ef($phrase): string
     {
@@ -2422,20 +2296,18 @@ class BladeCompiler
         $r = $this->_e($phrase);
         $argv[0] = $r; // replace the first argument with the translation.
         $result = @sprintf(...$argv);
-        return !$result ? $r : $result;
+        return ! $result ? $r : $result;
     }
 
     /**
      * Tries to translate the word if it's in the array defined by BladeOneLang::$dictionary
      * If the operation fails then, it returns the original expression without translation.
      *
-     * @param $phrase
      *
-     * @return string
      */
     public function _e($phrase): string
     {
-        if ((!\array_key_exists($phrase, static::$dictionary))) {
+        if ((! \array_key_exists($phrase, static::$dictionary))) {
             $this->missingTranslation($phrase);
             return $phrase;
         }
@@ -2451,7 +2323,7 @@ class BladeCompiler
      */
     protected function missingTranslation($txt): void
     {
-        if (!$this->missingLog) {
+        if (! $this->missingLog) {
             return; // if there is not a file assigned then it skips saving.
         }
 
@@ -2476,11 +2348,10 @@ class BladeCompiler
      * @param string $phrases
      * @param int    $num
      *
-     * @return string
      */
     public function _n($phrase, $phrases, $num = 0): string
     {
-        if ((!\array_key_exists($phrase, static::$dictionary))) {
+        if ((! \array_key_exists($phrase, static::$dictionary))) {
             $this->missingTranslation($phrase);
             return ($num <= 1) ? $phrase : $phrases;
         }
@@ -2489,8 +2360,6 @@ class BladeCompiler
     }
 
     /**
-     * @param $expression
-     * @return string
      * @see BladeOne::getCanonicalUrl
      */
     public function compileCanonical($expression = null): string
@@ -2500,8 +2369,6 @@ class BladeCompiler
     }
 
     /**
-     * @param $expression
-     * @return string
      * @see BladeOne::getBaseUrl
      */
     public function compileBase($expression = null): string
@@ -2553,8 +2420,6 @@ class BladeCompiler
     /**
      * Execute the case tag.
      *
-     * @param $expression
-     * @return string
      */
     protected function compileCase($expression): string
     {
@@ -2569,7 +2434,6 @@ class BladeCompiler
      * Compile the while statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileWhile($expression): string
     {
@@ -2579,7 +2443,6 @@ class BladeCompiler
     /**
      * default tag used for switch/case
      *
-     * @return string
      */
     protected function compileDefault(): string
     {
@@ -2602,13 +2465,12 @@ class BladeCompiler
      * Compile while statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileInject($expression): string
     {
         $ex = $this->stripParentheses($expression);
         $p0 = \strpos($ex, ',');
-        if (!$p0) {
+        if (! $p0) {
             $var = $this->stripQuotes($ex);
             $namespace = '';
         } else {
@@ -2621,12 +2483,11 @@ class BladeCompiler
     /**
      * Remove first and end quote from a quoted string of text
      *
-     * @param mixed $text
      * @return null|string|string[]
      */
     public function stripQuotes($text)
     {
-        if (!$text || strlen($text) < 2) {
+        if (! $text || strlen($text) < 2) {
             return $text;
         }
         $text = trim($text);
@@ -2642,7 +2503,6 @@ class BladeCompiler
      * Execute the user defined extensions.
      *
      * @param string $value
-     * @return string
      */
     protected function compileExtensions($value): string
     {
@@ -2656,7 +2516,6 @@ class BladeCompiler
      * Compile Blade comments into valid PHP.
      *
      * @param string $value
-     * @return string
      */
     protected function compileComments($value): string
     {
@@ -2668,7 +2527,6 @@ class BladeCompiler
      * Compile Blade echos into valid PHP.
      *
      * @param string $value
-     * @return string
      * @throws Exception
      */
     protected function compileEchos($value): string
@@ -2682,7 +2540,6 @@ class BladeCompiler
     /**
      * Get the echo methods in the proper order for compilation.
      *
-     * @return array
      */
     protected function getEchoMethods(): array
     {
@@ -2772,11 +2629,10 @@ class BladeCompiler
      *
      * @param string       $haystack
      * @param string|array $needles
-     * @return bool
      */
     public static function contains($haystack, $needles): bool
     {
-        foreach ((array)$needles as $needle) {
+        foreach ((array) $needles as $needle) {
             if ($needle != '') {
                 if (\function_exists('mb_strpos')) {
                     if (\mb_strpos($haystack, $needle) !== false) {
@@ -2806,7 +2662,6 @@ class BladeCompiler
      *
      * @param string $text
      *
-     * @return string
      * @see BladeOne
      */
     protected function fixNamespaceClass($text): string
@@ -2824,8 +2679,6 @@ class BladeCompiler
     /**
      * For compile custom directive at runtime.
      *
-     * @param $match
-     * @return string
      */
     protected function compileStatementCustom($match): string
     {
@@ -2839,8 +2692,6 @@ class BladeCompiler
      *
      * @param ArrayAccess|array $array
      * @param string|int $key
-     * @param mixed $default
-     * @return mixed
      */
     public static function get($array, $key, $default = null)
     {
@@ -2852,7 +2703,6 @@ class BladeCompiler
      *
      * @param ArrayAccess|array $array
      * @param string|int        $key
-     * @return bool
      */
     public static function exists($array, $key): bool
     {
@@ -2865,7 +2715,6 @@ class BladeCompiler
     /**
      * This method removes the parenthesis of the expression and parse the arguments.
      * @param string $expression
-     * @return array
      */
     protected function getArgs($expression): array
     {
@@ -2888,7 +2737,6 @@ class BladeCompiler
      * @param string $separator the separator of arguments
      * @param string $assigment the character used to assign a new value
      * @param bool   $emptyKey  if the argument is without value, we return it as key (true) or value (false) ?
-     * @return array
      */
     public function parseArgs($text, $separator = ',', $assigment = '=', $emptyKey = true): array
     {
@@ -2925,7 +2773,7 @@ class BladeCompiler
             } else {
                 $nextpart .= $char;
             }
-            if ($char === $separator && !$insidePar) {
+            if ($char === $separator && ! $insidePar) {
                 $parts[] = substr($nextpart, 0, -1);
                 $nextpart = '';
             }
@@ -3010,7 +2858,6 @@ class BladeCompiler
      * Compile the "raw" echo statements.
      *
      * @param string $value
-     * @return string
      */
     protected function compileRawEchos($value): string
     {
@@ -3031,7 +2878,6 @@ class BladeCompiler
      * {{ $test or 'test2' }} compiles to {{ isset($test) ? $test : 'test2' }}
      *
      * @param string $value
-     * @return string
      */
     protected function compileEchoDefaults($value): string
     {
@@ -3039,7 +2885,7 @@ class BladeCompiler
         $patternPHPVariableName = '\$[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*';
 
         $result = \preg_replace('/^(' . $patternPHPVariableName . ')\s+or\s+(.+?)$/s', 'isset($1) ? $1 : $2', $value);
-        if (!$this->pipeEnable) {
+        if (! $this->pipeEnable) {
             return $this->fixNamespaceClass($result);
         }
         return $this->pipeDream($this->fixNamespaceClass($result));
@@ -3059,7 +2905,6 @@ class BladeCompiler
      * </pre>
      *
      * @param string $result
-     * @return string
      * @\eftec\bladeone\BladeOne::$pipeEnable
      */
     protected function pipeDream($result): string
@@ -3105,7 +2950,6 @@ class BladeCompiler
      * Compile the "regular" echo statements. {{ }}
      *
      * @param string $value
-     * @return string
      */
     protected function compileRegularEchos($value): string
     {
@@ -3122,7 +2966,6 @@ class BladeCompiler
      * Compile the escaped echo statements. {!! !!}
      *
      * @param string $value
-     * @return string
      */
     protected function compileEscapedEchos($value): string
     {
@@ -3143,7 +2986,6 @@ class BladeCompiler
      * Compile the "@each" tag into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileEach($expression): string
     {
@@ -3162,7 +3004,6 @@ class BladeCompiler
      * Compile the yield statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileYield($expression): string
     {
@@ -3172,7 +3013,6 @@ class BladeCompiler
     /**
      * Compile the show statements into valid PHP.
      *
-     * @return string
      */
     protected function compileShow(): string
     {
@@ -3183,7 +3023,6 @@ class BladeCompiler
      * Compile the section statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileSection($expression): string
     {
@@ -3193,7 +3032,6 @@ class BladeCompiler
     /**
      * Compile the append statements into valid PHP.
      *
-     * @return string
      */
     protected function compileAppend(): string
     {
@@ -3204,7 +3042,6 @@ class BladeCompiler
      * Compile the auth statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileAuth($expression = ''): string
     {
@@ -3220,7 +3057,6 @@ class BladeCompiler
      * Compile the elseauth statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileElseAuth($expression = ''): string
     {
@@ -3235,7 +3071,6 @@ class BladeCompiler
     /**
      * Compile the end-auth statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndAuth(): string
     {
@@ -3252,7 +3087,6 @@ class BladeCompiler
      * Compile the else statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileElseCan($expression = ''): string
     {
@@ -3274,7 +3108,6 @@ class BladeCompiler
      * Compile the elsecannot statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileElseCannot($expression = ''): string
     {
@@ -3291,8 +3124,6 @@ class BladeCompiler
      * Compile the canany statements into valid PHP.
      * canany(['edit','write'])
      *
-     * @param $expression
-     * @return string
      */
     protected function compileCanAny($expression): string
     {
@@ -3303,8 +3134,6 @@ class BladeCompiler
     /**
      * Compile the else statements into valid PHP.
      *
-     * @param $expression
-     * @return string
      */
     protected function compileElseCanAny($expression): string
     {
@@ -3319,7 +3148,6 @@ class BladeCompiler
      * Compile the guest statements into valid PHP.
      *
      * @param string|null $expression
-     * @return string
      */
     protected function compileGuest($expression = null): string
     {
@@ -3339,8 +3167,6 @@ class BladeCompiler
     /**
      * Compile the else statements into valid PHP.
      *
-     * @param $expression
-     * @return string
      */
     protected function compileElseGuest($expression): string
     {
@@ -3356,7 +3182,6 @@ class BladeCompiler
      * /**
      * Compile the end-auth statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndGuest(): string
     {
@@ -3366,7 +3191,6 @@ class BladeCompiler
     /**
      * Compile the end-section statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndsection(): string
     {
@@ -3376,7 +3200,6 @@ class BladeCompiler
     /**
      * Compile the stop statements into valid PHP.
      *
-     * @return string
      */
     protected function compileStop(): string
     {
@@ -3386,7 +3209,6 @@ class BladeCompiler
     /**
      * Compile the overwrite statements into valid PHP.
      *
-     * @return string
      */
     protected function compileOverwrite(): string
     {
@@ -3397,7 +3219,6 @@ class BladeCompiler
      * Compile the unless statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileUnless($expression): string
     {
@@ -3407,7 +3228,6 @@ class BladeCompiler
     /**
      * Compile the User statements into valid PHP.
      *
-     * @return string
      */
     protected function compileUser(): string
     {
@@ -3417,7 +3237,6 @@ class BladeCompiler
     /**
      * Compile the endunless statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndunless(): string
     {
@@ -3429,8 +3248,6 @@ class BladeCompiler
     /**
      * @error('key')
      *
-     * @param $expression
-     * @return string
      */
     protected function compileError($expression): string
     {
@@ -3441,7 +3258,6 @@ class BladeCompiler
     /**
      * Compile the end-error statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndError(): string
     {
@@ -3451,7 +3267,6 @@ class BladeCompiler
     /**
      * Compile the else statements into valid PHP.
      *
-     * @return string
      */
     protected function compileElse(): string
     {
@@ -3462,7 +3277,6 @@ class BladeCompiler
      * Compile the for statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileFor($expression): string
     {
@@ -3473,7 +3287,6 @@ class BladeCompiler
      * Compile the foreach statements into valid PHP.
      *
      * @param string|null $expression
-     * @return string
      */
     protected function compileForeach($expression): string
     {
@@ -3495,7 +3308,6 @@ class BladeCompiler
      * Compile a split of a foreach cycle. Used for example when we want to separate limites each "n" elements.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileSplitForeach($expression): string
     {
@@ -3506,7 +3318,6 @@ class BladeCompiler
      * Compile the break statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileBreak($expression): string
     {
@@ -3517,7 +3328,6 @@ class BladeCompiler
      * Compile the continue statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileContinue($expression): string
     {
@@ -3528,7 +3338,6 @@ class BladeCompiler
      * Compile the forelse statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileForelse($expression): string
     {
@@ -3540,7 +3349,6 @@ class BladeCompiler
      * Compile the if statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileIf($expression): string
     {
@@ -3553,7 +3361,6 @@ class BladeCompiler
      * Compile the else-if statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileElseif($expression): string
     {
@@ -3564,7 +3371,6 @@ class BladeCompiler
      * Compile the forelse statements into valid PHP.
      *
      * @param string $expression empty if it's inside a for loop.
-     * @return string
      */
     protected function compileEmpty($expression = ''): string
     {
@@ -3579,7 +3385,6 @@ class BladeCompiler
      * Compile the has section statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileHasSection($expression): string
     {
@@ -3589,7 +3394,6 @@ class BladeCompiler
     /**
      * Compile the end-while statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndwhile(): string
     {
@@ -3599,7 +3403,6 @@ class BladeCompiler
     /**
      * Compile the end-for statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndfor(): string
     {
@@ -3609,7 +3412,6 @@ class BladeCompiler
     /**
      * Compile the end-for-each statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndforeach(): string
     {
@@ -3619,7 +3421,6 @@ class BladeCompiler
     /**
      * Compile the end-can statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndcan(): string
     {
@@ -3629,7 +3430,6 @@ class BladeCompiler
     /**
      * Compile the end-can statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndcanany(): string
     {
@@ -3639,7 +3439,6 @@ class BladeCompiler
     /**
      * Compile the end-cannot statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndcannot(): string
     {
@@ -3649,7 +3448,6 @@ class BladeCompiler
     /**
      * Compile the end-if statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndif(): string
     {
@@ -3659,7 +3457,6 @@ class BladeCompiler
     /**
      * Compile the end-for-else statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndforelse(): string
     {
@@ -3670,7 +3467,6 @@ class BladeCompiler
      * Compile the raw PHP statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compilePhp($expression): string
     {
@@ -3682,7 +3478,6 @@ class BladeCompiler
     /**
      * Compile end-php statement into valid PHP.
      *
-     * @return string
      */
     protected function compileEndphp(): string
     {
@@ -3693,7 +3488,6 @@ class BladeCompiler
      * Compile the unset statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileUnset($expression): string
     {
@@ -3704,7 +3498,6 @@ class BladeCompiler
      * Compile the extends statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileExtends($expression): string
     {
@@ -3718,11 +3511,9 @@ class BladeCompiler
         return $this->phpTag . '$_shouldextend[' . $this->uidCounter . ']=1; ?>';
     }
 
-
     /**
      * Execute the @parent command. This operation works in tandem with extendSection
      *
-     * @return string
      * @see extendSection
      */
     protected function compileParent(): string
@@ -3734,7 +3525,6 @@ class BladeCompiler
      * Compile the include statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileInclude($expression): string
     {
@@ -3746,8 +3536,6 @@ class BladeCompiler
      * It loads a compiled template and paste inside the code.<br>
      * It uses more disk space, but it decreases the number of includes<br>
      *
-     * @param $expression
-     * @return string
      * @throws Exception
      */
     protected function compileIncludeFast($expression): string
@@ -3757,7 +3545,7 @@ class BladeCompiler
         $exp = \explode(',', $ex);
         $file = $this->stripQuotes($exp[0] ?? null);
         $fileC = $this->getCompiledFile($file);
-        if (!@\is_file($fileC)) {
+        if (! @\is_file($fileC)) {
             // if the file doesn't exist then it's created
             $this->compile($file, true);
         }
@@ -3768,7 +3556,6 @@ class BladeCompiler
      * Compile the include statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileIncludeIf($expression): string
     {
@@ -3779,7 +3566,6 @@ class BladeCompiler
      * Compile the include statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileIncludeWhen($expression): string
     {
@@ -3791,7 +3577,6 @@ class BladeCompiler
      * Compile the includefirst statement
      *
      * @param string $expression
-     * @return string
      */
     protected function compileIncludeFirst($expression): string
     {
@@ -3819,9 +3604,7 @@ class BladeCompiler
      * {@}viewname('template') returns the full template path
      * {@}viewname('') returns the view name.
      *
-     * @param mixed $expression
      *
-     * @return string
      */
     protected function compileViewName($expression): string
     {
@@ -3840,7 +3623,6 @@ class BladeCompiler
      * Compile the stack statements into the content.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileStack($expression): string
     {
@@ -3850,7 +3632,6 @@ class BladeCompiler
     /**
      * Compile the endpush statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndpush(): string
     {
@@ -3860,7 +3641,6 @@ class BladeCompiler
     /**
      * Compile the endpushonce statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndpushOnce(): string
     {
@@ -3870,7 +3650,6 @@ class BladeCompiler
     /**
      * Compile the endpush statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndPrepend(): string
     {
@@ -3881,7 +3660,6 @@ class BladeCompiler
      * Compile the component statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileComponent($expression): string
     {
@@ -3891,7 +3669,6 @@ class BladeCompiler
     /**
      * Compile the end-component statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndComponent(): string
     {
@@ -3902,7 +3679,6 @@ class BladeCompiler
      * Compile the slot statements into valid PHP.
      *
      * @param string $expression
-     * @return string
      */
     protected function compileSlot($expression): string
     {
@@ -3912,7 +3688,6 @@ class BladeCompiler
     /**
      * Compile the end-slot statements into valid PHP.
      *
-     * @return string
      */
     protected function compileEndSlot(): string
     {
@@ -3952,7 +3727,6 @@ class BladeCompiler
      *
      * @param string      $className
      * @param string|null $variableName
-     * @return mixed
      */
     protected function injectClass($className, $variableName = null)
     {
@@ -3962,16 +3736,14 @@ class BladeCompiler
         }
 
         // @phpstan-ignore-next-line
-        $fullClassName = $className . "\\" . $variableName;
+        $fullClassName = $className . '\\' . $variableName;
         return new $fullClassName();
     }
 
     /**
      * Used for @_e directive.
      *
-     * @param $expression
      *
-     * @return string
      */
     protected function compile_e($expression): string
     {
@@ -3981,9 +3753,7 @@ class BladeCompiler
     /**
      * Used for @_ef directive.
      *
-     * @param $expression
      *
-     * @return string
      */
     protected function compile_ef($expression): string
     {
@@ -3995,9 +3765,7 @@ class BladeCompiler
     /**
      * Used for @_n directive.
      *
-     * @param $expression
      *
-     * @return string
      */
     protected function compile_n($expression): string
     {
