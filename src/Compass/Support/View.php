@@ -15,8 +15,12 @@ class View implements ViewContract
 
     public function __construct(App $app)
     {
+        $viewPath = is_admin() ?
+            $app->adminResourcePath('views') :
+            $app->resourcePath('views');
+
         $this->blade = new BladeCompiler(
-            $app->resourcePath('views'),
+            $viewPath,
             $app->storagePath('framework/views'),
             BladeCompiler::MODE_AUTO,
         );

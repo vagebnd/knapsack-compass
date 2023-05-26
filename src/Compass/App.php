@@ -106,7 +106,12 @@ class App extends Container
 
     public function resourcePath(string $path = '')
     {
-        return $this->joinPaths($this->path('resources'), $path);
+        return $this->joinPaths($this->path('resources/front'), $path);
+    }
+
+    public function adminResourcePath(string $path = '')
+    {
+        return $this->joinPaths($this->path('resources/admin'), $path);
     }
 
     public function storagePath(string $path = '')
