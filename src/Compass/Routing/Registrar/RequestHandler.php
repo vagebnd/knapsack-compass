@@ -3,9 +3,9 @@
 namespace Knapsack\Compass\Routing\Registrar;
 
 use Illuminate\Support\Collection;
+use Knapsack\Compass\Exceptions\HttpResponseException;
 use Knapsack\Compass\Routing\Route;
 use Knapsack\Compass\Support\Collections\Arr;
-use Knapsack\Compass\Exceptions\HttpResponseException;
 
 class RequestHandler
 {
@@ -14,13 +14,15 @@ class RequestHandler
         $method = strtoupper(Arr::get($_SERVER, 'REQUEST_METHOD', 'GET'));
         $action = $methods->firstWhere('method', $method);
 
-        if (! $action) {
-            throw new HttpResponseException('Method not allowed', 405);
-        }
+        // TODO:: this messes with uploading images in the media library. And maybe other things.
 
-        if (! $action instanceof Route) {
-            throw new HttpResponseException('Invalid route action', 500);
-        }
+        // if (! $action) {
+        //     throw new HttpResponseException('Method not allowed', 405);
+        // }
+
+        // if (! $action instanceof Route) {
+        //     throw new HttpResponseException('Invalid route action', 500);
+        // }
 
         // TODO: Test other methods. (put, patch, delete, etc.)
 

@@ -2,9 +2,14 @@
 
 namespace Knapsack\Compass\Routing;
 
+use Closure;
+use Illuminate\Support\Arr;
 use Knapsack\Compass\App;
+use Knapsack\Compass\Contracts\Responsable;
+use Knapsack\Compass\Routing\RouteRegistrar as Registrar;
 use Knapsack\Compass\Routing\Routes\AdminPageRoute;
 use Knapsack\Compass\Routing\Routes\TemplateRoute;
+use Knapsack\Compass\Support\Request;
 use Skeleton\Support\Plugin;
 
 class Router
@@ -19,6 +24,8 @@ class Router
     protected $container;
 
     protected $registrar;
+
+    protected $groupStack = [];
 
     public function __construct(App $app)
     {
@@ -100,6 +107,18 @@ class Router
         return null;
     }
 
+    public function group(array $attributes, $routes)
+    {
+        foreach (Arr::wrap($routes) as $groupRoutes) {
+            $this->updateGroupStack($attributes);
+            $this->loadGroupRoutes($groupRoutes);
+
+            array_pop($this->groupStack);
+        }
+
+        return $this;
+    }
+
     public function loadRoutes(string $path = null)
     {
         if (is_null($path)) {
@@ -151,6 +170,25 @@ class Router
         $this->registerRoute($path, $action, 'OPTIONS');
     }
 
+    public function hasGroupStack()
+    {
+        return ! empty($this->groupStack);
+    }
+
+    protected function updateGroupStack(array $attributes)
+    {
+        $this->groupStack[] = $attributes;
+    }
+
+    protected function loadGroupRoutes($routes)
+    {
+        if ($routes instanceof Closure) {
+            $routes($this);
+        }
+
+        // TODO:: handle files
+    }
+
     private function registerRoute(string $path, array $action, string $method = 'GET')
     {
         $route = new Route($path, $action, $method);
@@ -164,20 +202,63 @@ class Router
         }
     }
 
+    protected function prefix($uri)
+    {
+        return trim(trim($this->getLastGroupPrefix(), '/').'/'.trim($uri, '/'), '/') ?: '/';
+    }
+
+    public function getLastGroupPrefix()
+    {
+        if ($this->hasGroupStack()) {
+            $last = end($this->groupStack);
+
+            return $last['prefix'] ?? '';
+        }
+
+        return '';
+    }
+
+    public function isAdminRoute()
+    {
+        if ($this->hasGroupStack()) {
+            $last = end($this->groupStack);
+            return array_key_exists('admin', $last);
+        }
+
+        return false;
+    }
+
     private function registerApiRoute(Route $route)
     {
-        add_action('rest_api_init', function () use ($route) {
+        $endPoint = $this->prefix($route->getApiEndpoint());
+
+        add_action('rest_api_init', function () use ($route, $endPoint) {
+            // @phpstan-ignore-next-line
             $pluginName = Plugin::getInstance()->make('config')->get('app.name');
 
-            register_rest_route($pluginName, $route->endpoint, [
-                'methods' => 'GET',
-                'callback' => function () use ($route) {
-                    return new \WP_REST_Response($route->run(), 200);
+            register_rest_route($pluginName, $endPoint, [
+                'methods' => $route->method,
+                'callback' => function (\WP_REST_Request $wpRequest) use ($route) {
+                    $args = $wpRequest->get_url_params();
+                    $request = new Request();
+                    $result = $route->run($args);
+                    $response = $result instanceof Responsable ? $result->toResponse($request) : $result;
+
+                    return new \WP_REST_Response($response, 200);
                 },
                 'permission_callback' => function () {
+                    if ($this->isAdminRoute()) {
+                        return current_user_can('administrator');
+                    }
+
                     return true;
                 },
             ]);
         });
+    }
+
+    public function __call($method, $parameters)
+    {
+        return (new Registrar($this))->attribute($method, array_key_exists(0, $parameters) ? $parameters[0] : true);
     }
 }

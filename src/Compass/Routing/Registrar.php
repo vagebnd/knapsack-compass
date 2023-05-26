@@ -3,9 +3,6 @@
 namespace Knapsack\Compass\Routing;
 
 use Knapsack\Compass\Exceptions\HttpResponseException;
-use Knapsack\Compass\Routing\Registrar\RequestHandler;
-use Knapsack\Compass\Support\Collections\Arr;
-use RuntimeException;
 
 class Registrar
 {

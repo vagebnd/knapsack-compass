@@ -26,7 +26,7 @@ class Route implements Serializable
         $this->method = $method;
     }
 
-    public function run()
+    public function run($args = [])
     {
         if ($this->action instanceof \Closure) {
             return call_user_func($this->action);
@@ -34,7 +34,7 @@ class Route implements Serializable
 
         [$controller, $method] = $this->getValidatedAction();
 
-        return vgb_app($controller)->callAction($method, []);
+        return vgb_app($controller)->callAction($method, $args);
     }
 
     public function adminRun()
@@ -51,6 +51,15 @@ class Route implements Serializable
     public function serialize()
     {
         return sha1(json_encode($this));
+    }
+
+    // Rewrite the endpoint in the format the WP rest API expects
+    public function getApiEndpoint()
+    {
+        return preg_replace_callback('/{([^}]+)}/', function ($matches) {
+            $variableName = $matches[1];
+            return '(?P<' . $variableName . '>\d+)';
+        }, $this->endpoint);
     }
 
     protected function getValidatedAction()
