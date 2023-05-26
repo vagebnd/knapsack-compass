@@ -12,5 +12,9 @@ class LoadRoutes implements Bootstrapable
     public function bootstrap(App $app)
     {
         $app->instance(Registrar::class, Registrar::make($app->make(Router::class)->loadRoutes()));
+
+        add_action('admin_init', function () {
+            rest_get_server();
+        });
     }
 }
