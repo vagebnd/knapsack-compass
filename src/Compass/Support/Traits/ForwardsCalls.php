@@ -10,10 +10,8 @@ trait ForwardsCalls
     /**
      * Forward a method call to the given object.
      *
-     * @param  mixed  $object
      * @param  string  $method
      * @param  array  $parameters
-     * @return mixed
      *
      * @throws \BadMethodCallException
      */
@@ -40,10 +38,8 @@ trait ForwardsCalls
     /**
      * Forward a method call to the given object, returning $this if the forwarded call returned itself.
      *
-     * @param  mixed  $object
      * @param  string  $method
      * @param  array  $parameters
-     * @return mixed
      *
      * @throws \BadMethodCallException
      */
@@ -69,7 +65,9 @@ trait ForwardsCalls
     protected static function throwBadMethodCallException($method)
     {
         throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()', static::class, $method
+            'Call to undefined method %s::%s()',
+            static::class,
+            $method
         ));
     }
 }
