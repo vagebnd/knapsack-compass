@@ -1,10 +1,11 @@
 <?php
 
 use Knapsack\Compass\App;
-use Knapsack\Compass\Models\Post;
-use Knapsack\Compass\Contracts\ViewContract;
 use Knapsack\Compass\Contracts\Config\Repository;
+use Knapsack\Compass\Contracts\ViewContract;
+use Knapsack\Compass\Models\Post;
 use Knapsack\Compass\Support\HigherOrderTapProxy;
+use Rakit\Validation\Validator;
 
 if (! function_exists('vgb_path')) {
     function vgb_path($path = '')
@@ -127,9 +128,7 @@ if (! function_exists('vgb_tap')) {
     /**
      * Call the given Closure with the given value then return the value.
      *
-     * @param  mixed  $value
      * @param  callable|null  $callback
-     * @return mixed
      */
     function vgb_tap($value, $callback = null)
     {
@@ -140,5 +139,12 @@ if (! function_exists('vgb_tap')) {
         $callback($value);
 
         return $value;
+    }
+}
+
+if (! function_exists('vgb_validator')) {
+    function vgb_validator(array $data = [], array $rules = [], array $messages = [], array $customAttributes = [])
+    {
+        return new Validator();
     }
 }
