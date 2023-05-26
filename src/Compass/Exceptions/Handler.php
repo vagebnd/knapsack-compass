@@ -2,10 +2,11 @@
 
 namespace Knapsack\Compass\Exceptions;
 
-use Throwable;
-use Whoops\Handler\PrettyPageHandler;
 use Knapsack\Compass\Contracts\Debug\ExceptionHandler;
 use Knapsack\Compass\Support\Facades\Config;
+use Knapsack\Compass\Support\Facades\Request;
+use Throwable;
+use Whoops\Handler\PrettyPageHandler;
 
 class Handler implements ExceptionHandler
 {
@@ -16,6 +17,15 @@ class Handler implements ExceptionHandler
 
     public function render(Throwable $e)
     {
+        if (Request::expectsJson()) {
+            $response = new \WP_REST_Response([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+            ], $e->getCode());
+
+            wp_send_json($response, $e->getCode());
+        }
+
         if (wp_get_environment_type() === 'local') {
             if (class_exists('\Whoops\Run')) {
                 $pageHandler = (new PrettyPageHandler)
