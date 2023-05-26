@@ -6,15 +6,10 @@ use Knapsack\Compass\Support\Facade;
 use Knapsack\Compass\Support\Request as SupportRequest;
 
 /**
- * @method static array all()
- * @method static array only($keys)
- * @method static Collection range($from, $to)
- * @method static LazyCollection lazy()
- * @method static mixed lazy()
- * @method static mixed median(string|array|null $key)
- * @method static mixed mode()
- * @method static bool has($key)
- * @method static mixed get($key, $default = null)
+ * @method static bool expectsJson()
+ * @method static bool has(string $value)
+ * @method static mixed get($value, $default = null)
+ * @method static array only(array $value)
  */
 class Request extends Facade
 {
