@@ -116,6 +116,10 @@ class Model extends CustomPostType
 
     private static function forge($post)
     {
+        if (empty($post)) {
+            return null;
+        }
+
         $modelClass = 'Skeleton\\Models\\' . self::getName();
 
         return new $modelClass($post);
