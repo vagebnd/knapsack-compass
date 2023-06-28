@@ -72,7 +72,7 @@ class CustomPostType
     public function labels(): array
     {
         $name = self::getName();
-        $textDomain = Config::get('app.text-domain');
+        $textDomain = Config::get('app.text_domain');
 
         $defaults = [
           'name'               => $this->plural,
