@@ -31,12 +31,12 @@ class CustomPostType
     public $taxonomies = [];
     public $hasArchive = false;
     public $rewrite = [];
-    public $slug = 'wp_kirk_slug';
+    public $slug = 'knapsack_slug';
     public $withFront = true;
     public $feeds = false;
     public $pages = true;
     public $epMask = EP_PERMALINK;
-    public $queryVar = 'wp_kirk_vars';
+    public $queryVar = 'knapsack_vars';
     public $canExport = true;
     public $deleteWithUser = false;
 
