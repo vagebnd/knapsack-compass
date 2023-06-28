@@ -7,6 +7,7 @@ use Knapsack\Compass\Routing\RouteRegistrar;
 use Knapsack\Compass\Support\Facade;
 
 /**
+ * @method static void template(string|callable|null $template, $action = null)
  * @method static mixed adminPage(string $endpoint, callable $callback = null, array $config = [])
  * @method static RouteRegistrar admin()
  * @method static void post(string $path, array $action)
